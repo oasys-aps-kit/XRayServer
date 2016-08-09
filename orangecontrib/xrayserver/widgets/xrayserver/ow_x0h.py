@@ -28,7 +28,6 @@ class X0h(widget.OWWidget):
     category = "X0h"
     keywords = ["data", "file", "load", "read"]
 
-
     want_main_area = 1
 
     outputs = [{"name": "X0h_Result",
