@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+<!-- Insert html base -->
+   <link rel=stylesheet href="style_form.css" type="text/css">
+   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Sergey Stepanov">
+   <meta name="Description" content="This page provides WEB interface to
+    calculations of x-ray resonant specular reflection by magnetic multilayers
+    with interface roughness">
+   <meta name="KeyWords" content="X-ray reflection, X-ray scattering,
+    X-ray material science, X-ray analysis, multilayers, magnetic multilayers,
+    magnetic materials, roughness">
+    <title>X-ray resonant reflection from magnetic multilayers on the Web</title>
+   <script language="javascript" type="text/javascript" src="mag_sl.js"></script>
+</head>
+<body onload="setOnloads()">
+
+<center><img src="images/mag_sl.gif" width=371 height=92 alt="X-ray resonant
+specular reflection from magnetic multilayers" border=1>
+</center>
+<br>
+
+<center><h4>
+Template: Fig.4 from the paper <a href="pub/Stepanov-Sinha_PRB_2000_06.pdf">S.Stepanov &amp; S.Sinha</a>, PRB <u>61</u> (2000) 15302.
+</h4></center>
+<br>
+
+<center>
+<NOSCRIPT><h3><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;
+<font color="red">Please enable JavaScript in Web Browser for this webform to work correctly</font></h3></NOSCRIPT>
+<form action="/cgi/MAG_form.pl" METHOD="post" name="magform" onsubmit="return mag_validate()">
+<input type=hidden name="comment1" value="Template: POST/MAG_sl_fig4.htm">
+<table cellspacing=0 cellpadding=0 border=0 bgcolor="#c1c1c1"><tr><td>
+<table border=1 bgcolor="#c1c1c1" bordercolor="#800000" cellpadding=5><TR><td colspan=2>
+<p>
+<nobr>
+<b>X-rays specified by: </b>
+<select name="xway" onClick="switchXrayFields()">
+  <option          value=1>Wavelength (A)
+  <option selected value=2>Energy (KeV)
+  <option          value=3>X-ray line
+</select><b>&nbsp; </b>
+
+Value=<input name="wave" size=10 value="7.243">
+
+Line=<select name="line">
+<option>
+<!-- x0hdb=waves -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=waves','WaveHelp',500,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;</b>
+</nobr><br><nobr>
+<b>Polarization: &nbsp;&nbsp;</b><select name="ipol" onClick="switchPolarization()">
+ <option value=1>1. Sigma
+ <option value=2>2. Pi
+ <option value=3>3. Given by angle to Sigma-plane
+ <option value=4 selected>4. Circular -
+ <option value=5>5. Circular +
+</select><b>&nbsp;&nbsp;&nbsp;&nbsp;</b>angle to Sigma-plane for Option-3 &nbsp;<input type=TEXT name="polangle" size=4 value="0.">
+</nobr>
+
+<br>&nbsp;<br>
+
+<table>
+<tr valign=middle>
+   <td><nobr><b>Substrate:</b></nobr></td>
+   <td><nobr><input type=RADIO name="subway" value=1 onClick="switchSubstrate()" CHECKED></nobr></td>
+   <td><nobr>Database code:</nobr></td>
+   <td><nobr>
+     <select name="code">
+       <option>
+       <!-- x0hdb=all+atoms default=Silicon expand=select -->
+     </select>
+     <a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=all%2Batoms','AllHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a></nobr></td>
+   <td><nobr>&nbsp; &nbsp;
+     <select name="df1df2">
+       <option selected value=-1>Automatic DB for f',f"
+       <option          value=0>X0h data (5-25keV; 0.5-2.5A)
+       <option          value=2>Henke data (0.01-30keV; 0.4-1200A)
+       <option          value=4>Brennan data (0.03-700keV; 0.02-400A)
+     </select></nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr><input type=RADIO name="subway" value=2 onClick="switchSubstrate()"></nobr></td>
+   <td><nobr>Chemical formula: </nobr></td>
+   <td><nobr><input type=TEXT name="chem" size=16>&nbsp; &nbsp; </nobr></td>
+   <td><nobr>rho=<input type=TEXT name="rho" size=8> g/cm^3 &nbsp; </nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr><input type=RADIO name="subway" value=3 onClick="switchSubstrate()"></nobr></td>
+   <td><nobr>Susceptibility x0 = (</nobr></td>
+   <td><nobr><input type=TEXT name="x0" size=16>&nbsp; )&nbsp;</nobr></td>
+   <td><nobr> / format: x0=(Re(x0), Im(x0)); note: x0=2*delta /</nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>x0 correction: w0 =</nobr></td>
+   <td><nobr><input type=TEXT name="w0" size=5 value="1.">&nbsp; &nbsp; </nobr></td>
+   <td><nobr> / this is used as: x0 = w0 * x0 /</nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>Roughness: sigma =</nobr></td>
+   <td><nobr><input type=TEXT name="sigma" size=5 value="0."> Angstrom &nbsp; <b>OR</B></nobr></td>
+   <td><nobr> &nbsp; Transition layer tr = <input type=TEXT name="tr" size=5 value="0."> Angstrom</nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>&nbsp;</nobr></td>
+   <td colspan=3><nobr><font color=green>Magnetic</font> atoms<sup>&nbsp;</sup> &nbsp;
+          <input type=RADIO name="magway" value=1 checked> share (0.--1.) &nbsp; /
+          <input type=RADIO name="magway" value=2> density (1/cm^3): &nbsp;
+	  <input type=TEXT name="rhom" size=5 value="0."></nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>&nbsp;</nobr></td>
+   <td colspan=3><nobr><font color=green>Magnetic</font> orientation &nbsp; &nbsp; &nbsp;
+	  X = <input type=TEXT name="m1" size=6 value="0">&nbsp; &nbsp; &nbsp; &nbsp;
+	  Y = <input type=TEXT name="m2" size=6 value="0">&nbsp; &nbsp; &nbsp; &nbsp;
+	  Z = <input type=TEXT name="m3" size=6 value="0"></nobr></td></tr>
+<tr valign=middle>
+   <td><nobr>&nbsp;</nobr></td>
+   <td><nobr>&nbsp;</nobr></td>
+   <td colspan=3><nobr><font color=green>Magnetic</font> amplitudes &nbsp;
+	  F10 = <input type=TEXT name="F10" size=6 value="0., 0.">&nbsp; &nbsp;
+	  F11 = <input type=TEXT name="F11" size=6 value="0., 0.">&nbsp; &nbsp;
+	  F1T = <input type=TEXT name="F1T" size=6 value="0., 0."></nobr></td></tr>
+</table>
+
+<p><nobr>
+<b>Scan (incidence angle or qz):&nbsp;&nbsp;</b>
+from &nbsp;<input type=TEXT name="scanmin" size=5 value="0."><b>&nbsp;</b>
+  to &nbsp;<input type=TEXT name="scanmax" size=5 value="4."><b>&nbsp;</b>
+<select name="unis">
+ <option value=0 selected>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3>sec.
+ <option value=4>urad
+ <option value=5>1/A (qz)
+</select><b>&nbsp;&nbsp;</b>
+Scan points=<input name="nscan" size=5 value="4001"><b>&nbsp;&nbsp;&nbsp;</b>
+</nobr>
+
+<p><nobr>
+<b><font color="green">Magnetic</font> model:&nbsp;&nbsp;</b>
+          <input type=RADIO name="execprg" value=99 checked>  generic (may have numeric problems for hard x-rays)&nbsp; /
+          <input type=RADIO name="execprg" value=98> hard x-rays (E>6keV)
+</nobr>
+
+<p><nobr>
+<input type=checkbox name="watch" value=1><b>watch progress &nbsp;</b>
+<input type=SUBMIT value="Submit Query"> (single click, please!)
+</nobr>
+</td></tr>
+<TR><td>
+
+<b>Top layer profile <i>(optional)</i>:</b><br>
+&nbsp; period= <br>
+&nbsp; &nbsp; t=&nbsp;&nbsp; sigma=&nbsp;&nbsp; tr=&nbsp;&nbsp;  code=&nbsp;&nbsp; rho=&nbsp;&nbsp; x=&nbsp;&nbsp; code2=&nbsp;&nbsp; x2=&nbsp;&nbsp; code3=&nbsp;&nbsp; x3=&nbsp;&nbsp; code4=&nbsp;&nbsp; x0=&nbsp;&nbsp; w0= <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<font color="green">mshare=&nbsp;&nbsp; mdensity=&nbsp;&nbsp; mvector=&nbsp;&nbsp;  F10=&nbsp;&nbsp; F11=&nbsp;&nbsp; F1T=</font> <br>
+&nbsp; end period <br>
+<TEXTAREA name="profile" ROWS=17 COLS=70>
+period=15
+code=Gd t=50 F11=(-0.22,9.35) F1T=(0.37,9.65) mshare=1 mvector=(1 0 0)
+code=Fe t=35
+end period
+</TEXTAREA>
+
+<p><input type="submit" value="Submit Query"> (same &quot;Submit&quot; action as above; single click, please!)</p>
+<table border="0" cellpadding="0" cellspacing="0"><tr VALIGN="middle">
+  <td><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;</td>
+  <td><a href="News.html#POST" target=_blank><b><small>The profiles are restricted to 5000 layers after applying periods.</small></b></a><br>
+      <a href="News.html#antispam" target=_blank><b><small>Do not use links or unusual words in surface layer profile!</small></b></a></td>
+</tr></table>
+
+</td>
+<td VALIGN=BOTTOM>
+<b><font color=red>Available codes:</font></b><br>
+<b>(use Copy/Paste)</b><br>
+<TEXTAREA ROWS=21 COLS=9>
+<!-- x0hdb=all+atoms expand=plain -->
+</TEXTAREA><br>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=all%2Batoms','AllHelp',700,250);">More details</a>
+
+</td></tr></table>
+</td></tr></table>
+</form>
+</center>
+
+<HR>
+<table>
+<TR valign="middle">
+    <td align=center><img src="images/classic.gif" width=40 height=40 ALT="Beta" border=0></td>
+    <td>Please, report problems and send comments to
+        <font color="#800000"><b><u><img src="images/sstepanov_email.gif" class="email" border=0 ALIGN="absbottom"></u></b></font>
+    </td>
+</tr>
+<!-- Insert site navigation -->
+<tr valign="middle">
+    <td align=center><img src="images/xtemplate.gif" width=32 height=32 ALT="X-templates" border=0></td>
+    <td><form action="javascript:void(0)"><B>TER_SL templates:</B>
+    <select Name="template">
+    <option Value="/cgi/WWW_form.exe?template=MAG_sl_fig3.htm">Resonant reflection example Fig.3</option>
+    <option Value="/cgi/WWW_form.exe?template=MAG_sl_fig4.htm">Resonant reflection example Fig.4</option>
+    <option Value="/cgi/WWW_form.exe?template=MAG_sl_fig5.htm">Resonant reflection example Fig.5</option>
+    </select>
+    <input Type=button Value="Go!" onClick="window.location.href=this.form.template.options[this.form.template.selectedIndex].value">
+    </form>
+    </td>
+</tr>
+</table><p>
+
+<!-- Insert change date -->
+
+</body>
+</HTML>

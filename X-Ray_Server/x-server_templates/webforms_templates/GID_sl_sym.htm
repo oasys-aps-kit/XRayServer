@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+<!-- Insert html base -->
+   <link rel=stylesheet href="style_form.css" type="text/css">
+   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Sergey Stepanov">
+   <meta name="Description" content="This page provides WEB interface to
+    calculations of x-ray dynamical diffraction by strained crystals and multilayers.">
+   <meta name="KeyWords" content="X-ray diffraction, Dynamical diffraction,
+    X-ray crystallography, X-ray material science, X-ray analysis,
+    Strained crystals, Multilayers, Roughness">
+   <title>Dynamical x-ray diffraction from multilayers on the Web</title>
+   <script language="javascript" type="text/javascript" src="gid_sl.js"></script>
+</head>
+<body onload="setOnloads()">
+
+<center><img src="images/gid_sl.jpg" width=489 height=82 alt="GID_sl on the Web:
+ Dynamical x-ray diffraction from strained crystals, multilayers
+ and superlattices at usual and grazing angles" border=0></center>
+<br>
+
+<center><h4>
+Template: symmetric Bragg diffraction from perfect crystals.
+</h4></center>
+<br>
+
+<center>
+<NOSCRIPT><h3><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;
+<font color="red">Please enable JavaScript in Web Browser for this webform to work correctly</font></h3></NOSCRIPT>
+<form action="/cgi/GID_form.pl" METHOD="post" name="gidform" onsubmit="return gid_validate()">
+<input type=hidden name="comment1" value="Template: POST/GID_sl_sym.htm">
+<table cellspacing=0 cellpadding=0 border=0 bgcolor="#c1c1c1"><tr><td>
+<table border=1 bgcolor="#c1c1c1" bordercolor="#800000" cellpadding=5><TR><td colspan=2>
+
+<nobr>
+<b>X-rays specified by: </b>
+<select name="xway" onClick="switchXrayFields()">
+  <option selected value=1>Wavelength (A)
+  <option          value=2>Energy (KeV)
+  <option          value=4>Bragg angle (degr)
+  <option          value=3>X-ray line
+</select><b>&nbsp; </b>
+
+Value=<input name="wave" size=10 value="1.540562">
+
+Line=<select name="line">
+<option>
+<!-- x0hdb=waves default=Cu-Ka1 -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=waves','WaveHelp',500,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<b>&nbsp; &nbsp; </b>
+Polarization=<select name="ipol">
+ <option value=1 selected>Sigma
+ <option value=2>Pi
+ <option value=3>Mixed
+</select><b>&nbsp; </b>
+</nobr>
+<p>
+
+<nobr>
+<b>Crystal:</b> <select name="code">
+<!-- x0hdb=crystals default=Germanium expand=select -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=crystals','CrystalHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<b>&nbsp; </b>
+<select name="df1df2">
+  <option selected value=-1>Auto DB for f',f"
+  <option          value=0>X0h data (0.5-2.5A)
+  <option          value=2>Henke (0.4-1200A)
+  <option          value=4>Brennan (0.02-400A)
+</select><b>&nbsp; &nbsp; </b>
+Sigma=<input type=TEXT name="sigma" size=3 value="0.">A<b>&nbsp; &nbsp; </b>
+W0=<input type=TEXT name="w0" size=3 value="1."><b>&nbsp; &nbsp; </b>
+Wh=<input type=TEXT name="wh" size=3 value="1.">
+</nobr>
+<p>
+
+<nobr>
+<b>Bragg Reflection:</b>
+<input type=TEXT name="i1" size=3 value="1">
+<input type=TEXT name="i2" size=3 value="1">
+<input type=TEXT name="i3" size=3 value="1"><b>&nbsp; &nbsp; &nbsp; </b>
+Substrate da/a=<input type=TEXT name="daa" size=6 value="0.">
+</nobr>
+<p>
+
+<nobr>
+<b>Geometry specified by:</b> <select name="igie" onClick="switchFcentre()">
+ <option value=1>[1]. Surface orientation &amp; incidence angle of K0
+ <option value=2>[2]. Surface orientation &amp; exit angle of Kh
+ <option value=3>[3]. Surface orientation &amp; condition of coplanar grazing incidence
+ <option value=4>[4]. Surface orientation &amp; condition of coplanar grazing exit
+ <option value=5 selected>[5]. Surface orientation &amp; condition of symmetric Bragg case
+ <option value=6>[6]. Condition of coplanar reflection &amp; angle of Bragg planes to surface
+ <option value=7>[7]. Condition of coplanar reflection &amp; incidence angle of K0
+ <option value=8>[8]. Condition of coplanar reflection &amp; exit angle of Kh
+ <option value=9>[9]. Condition of coplanar reflection &amp; asymmetry factor beta=g0/gh
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('GID_help.html','CrystalHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+</nobr>
+<br>
+<nobr>
+-- Geometry parameter ([1,7]=incidence angle, [2,8]=exit angle, [6]=Bragg planes angle, [9]=g0/gh):
+<input type=TEXT name="fcentre" size=7>
+<select name="unic">
+ <option value=-1 selected>&nbsp;
+ <option value=0>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3>sec.
+ <option value=4>urad
+</select><b>&nbsp; </b>
+</nobr>
+<br>
+<nobr>
+-- Surface plane ([1-5]):
+<input type=TEXT name="n1" size=3 value="1">
+<input type=TEXT name="n2" size=3 value="1">
+<input type=TEXT name="n3" size=3 value="1"><b>&nbsp; &nbsp; </b>
+Miscut direction:
+<input type=TEXT name="m1" size=3 value="1">
+<input type=TEXT name="m2" size=3 value="-1">
+<input type=TEXT name="m3" size=3 value="0"><b>&nbsp; &nbsp; </b>
+Miscut angle: <input type=TEXT name="miscut" size=6 value="0.">
+<select name="unim">
+ <option value=0 selected>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3>sec.
+ <option value=4>urad
+</select><b>&nbsp; </b>
+</nobr>
+<p>
+
+<nobr>
+<b>Scan axis:</b> <select name="axis" onClick="switchScanAxis()">
+ <option value=1>Surface normal (N_surface)
+ <option value=2>[k0 x N_surface]
+ <option value=3>Reciprocal latt.vector (h)
+ <option value=4 selected>[k0 x h]
+ <option value=5>Other axis
+ <option value=6>Takeoff spectrum (PSD)
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('GID_help.html','CrystalHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<b>&nbsp; </b>
+Indices, if other scan axis:
+ <input type=TEXT name="a1" size=3>
+ <input type=TEXT name="a2" size=3>
+ <input type=TEXT name="a3" size=3><b>&nbsp; &nbsp; &nbsp; &nbsp; </b>
+<input type=checkbox name="invert" value=1>Invert scan axis
+</nobr>
+<p>
+
+<nobr>
+<b>Scan limits:&nbsp; </b>
+from <input type=TEXT name="scanmin" size=7 value="-60."><b>&nbsp; </b>
+  to <input type=TEXT name="scanmax" size=7 value="+60."><b>&nbsp; </b>
+<select name="unis">
+ <option value=0>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3 selected>sec.
+ <option value=4>urad
+</select><b>&nbsp; </b>
+Scan points=<input name="nscan" size=5 value="401"><b>&nbsp; </b>
+Plot argument=<select name="column">
+ <option value="A" selected>scan angle
+ <option value="I">incidence angle
+ <option value="E">exit angle
+</select><b>&nbsp; </b>
+</nobr>
+<p>
+
+<nobr>
+<b>Approximations:&nbsp; </b>
+alpha_max=<input type=TEXT name="alphamax" size=7 value="1.E+8"><b>&nbsp;*|xh|&nbsp;</b>
+<a href="javascript:void(0)" onClick="LargeFloat('alpha_help.html','AlphaHelp',760,700);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+</nobr>
+<p>
+
+<input type=checkbox name="watch" value=1><b>watch progress &nbsp;</b>
+<input type=SUBMIT value="Submit Query"> (single click, please!)
+</td></tr>
+<TR><td>
+
+<b>Top layer profile <i>(optional)</i>:</b><br>
+  period=             <br>
+    t=&nbsp;  sigma=&nbsp;   da/a=&nbsp;  code=&nbsp;  x=&nbsp;  code2=&nbsp;  x2=&nbsp;  code3=&nbsp; &nbsp;
+                                x3=&nbsp;  code4=&nbsp;  x0=&nbsp;   xh=&nbsp;  xhdf=&nbsp;  w0=&nbsp;   wh= <br>
+  end period          <br>
+<TEXTAREA name="profile" ROWS=20 COLS=70>
+</TEXTAREA>
+
+<p><input type="submit" value="Submit Query"> (same &quot;Submit&quot; action as above; single click, please!)</p>
+<table border="0" cellpadding="0" cellspacing="0"><tr VALIGN="middle">
+  <td><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;</td>
+  <td><a href="News.html#POST" target=_blank><b><small>The profiles are restricted to 5000 layers after applying periods.</small></b></a><br>
+      <a href="News.html#antispam" target=_blank><b><small>Do not use links or unusual words in surface layer profile!</small></b></a></td>
+</tr></table>
+
+</td>
+<td VALIGN=BOTTOM>
+<b><font color=red>Available codes:</font></b><br>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=crystals','CrystalHelp',700,250);"><B>[?]</B></a>
+<b>Crystals:</b>
+<br>
+<TEXTAREA ROWS=7 COLS=9>
+<!-- x0hdb=crystals expand=plain -->
+</TEXTAREA><br>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=amorphous','AmorphHelp',700,250);"><B>[?]</B></a>
+<b>Non-crystals:</b>
+<br>
+<TEXTAREA ROWS=7 COLS=9>
+<!-- x0hdb=amorphous expand=plain -->
+</TEXTAREA><br>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=atoms','AtomHelp',700,250);"><B>[?]</B></a>
+<b>Elements:</b>
+<br>
+<TEXTAREA ROWS=7 COLS=9>
+<!-- x0hdb=atoms expand=plain -->
+</TEXTAREA>
+
+</td></tr></table>
+</td></tr></table>
+</form>
+</center>
+
+<HR>
+<table>
+<tr valign="middle">
+    <td align=center><img src="images/classic.gif" width=40 height=40 ALT="Beta" border=0></td>
+    <td>Please, report problems and send comments to
+        <font color="#800000"><b><u><img src="images/sstepanov_email.gif" class="email" border=0 ALIGN="absbottom"></u></b></font>
+    </td>
+</tr>
+<!-- Insert site navigation -->
+<tr valign="middle">
+    <td align=center><img src="images/xtemplate.gif" width=32 height=32 ALT="X-templates" border=0></td>
+    <td><form action="javascript:void(0)"><B>GID_SL templates:</B>
+    <select Name="template">
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_sym_simplified.htm">1s. Symmetric Bragg diffraction from perfect crystals -- simplified</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_multilay_simplified.htm">2s. Symmetric Bragg diffraction from multilayers -- simplified</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_90_simplified.htm">3s. Symmetric Bragg diffraction at Bragg angle=90 -- simplified</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_enscan_simplified.htm">4s. Energy scanning of Bragg diffraction peaks -- simplified</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_sym.htm">1f. Symmetric Bragg diffraction from perfect crystals </option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_multilay.htm">2f. Symmetric Bragg diffraction from multilayers</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_EADi.htm">3f. Coplanar extremely asymmetric diffraction</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_GID.htm">4f. Grazing incidence diffraction from perfect crystals</option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_GIDexit.htm">5f. Grazing incidence diffraction from multilayers PSD </option>
+    <option Value="/cgi/WWW_form.exe?template=GID_sl_BRL.htm">6f. Non-coplanar Bragg-Laue diffraction</option>
+    </select>
+    <select Name="method">
+    <option Value="post" selected>POST</option>
+    <option Value="get">GET</option>
+    </select>
+    <input Type=button Value="Go!" onClick="window.location.href=this.form.template.options[this.form.template.selectedIndex].value+'&method='+this.form.method.options[this.form.method.selectedIndex].value">
+    </form>
+    </td>
+</tr>
+</table><p>
+
+<!-- Insert change date -->
+
+</body>
+</HTML>

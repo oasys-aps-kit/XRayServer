@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<!-- Insert html base -->
+   <link href="style_form.css" rel=stylesheet type="text/css">
+   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Sergey Stepanov">
+   <meta name="Description" content="This page provides WEB interface to
+    calculations of x-ray scattering and absorption factors for different Bragg
+    reflections and other data related with x-ray diffraction by crystals">
+   <meta name="keywords" content="X-ray diffraction, dynamical diffraction,
+    X-ray reflection, X-ray scattering, crystal data, scattering factors,
+    X-ray crystallography, X-ray material science, X-ray analysis">
+   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+   <title>X-ray dynamical diffraction data on the Web</title>
+   <script language="javascript" type="text/javascript" src="x0p.js"></script>
+</head>
+<body onload="setOnloads()">
+
+<H2>&nbsp;
+<img src="images/x0h_search_th_th.jpg" border=0 width=152 height=32 ALIGN=ABSMIDDLE ALT="X0h+ on the Web!">
+ &nbsp; <u><b><i>X0h-search</i></b> Request Form</u></H2>
+
+<b>Questions? Please, read</b> <a href="x0h.html"><b><i>X0h</i> documentation</b></a>.
+<br>
+
+<table cellspacing=0 cellpadding=0 border=0 bgcolor="#c1c1c1"><tr><td>
+<table border=1 bgcolor="#c1c1c1" bordercolor="#800000" cellpadding=5>
+<TR><td nowrap>
+<form action="/cgi/X0p_form.exe" METHOD="get" name="x0hform" onsubmit="return x0h_validate()">
+
+<font color="red"><b>X-rays:</b></font>
+<table>
+<tr><td><input type="radio" name="xway" value=1 onClick="switchXrayFields()"><b>Wavelength (A): </b><br>
+        <input type="radio" name="xway" value=2 onClick="switchXrayFields()"><b>Energy (keV): </b></td>
+    <td><input name="wave" size=10></td></tr>
+<tr><td><input type="radio" name="xway" value=3 onClick="switchXrayFields()" CHECKED><b>Characteristic line: </b></td>
+<td><select name="line">
+<option>
+<!-- x0hdb=waves default=Cu-Ka1 -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=waves','WaveHelp',500,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+</td></tr>
+</table>
+<br>
+
+<font color="red"><b>Crystal:</b></font><br>
+<b>&nbsp; &nbsp; Select code </b>
+<select name=code>
+<!-- x0hdb=crystals default=Silicon expand=select -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=crystals','CrystalHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<p>
+
+<font color="red"><b>Bragg planes range: </b></font><sub>&nbsp;</sub><br>
+<table>
+<tr>
+<td><b>&nbsp; &nbsp; From: &nbsp; </b></td>
+<td><input type=TEXT name="hkl11" size=3 value="-5">
+    <input type=TEXT name="hkl12" size=3 value="-5">
+    <input type=TEXT name="hkl13" size=3 value="-5">
+</td>
+<td><b>&nbsp; &nbsp; To: &nbsp; </b></td>
+<td><input type=TEXT name="hkl21" size=3 value="5">
+    <input type=TEXT name="hkl22" size=3 value="5">
+    <input type=TEXT name="hkl23" size=3 value="5">
+</td>
+</tr>
+</table>
+<br>
+
+<font color="red"><b>Bragg angle range: </b></font><sub>&nbsp;</sub><br>
+<table>
+<tr>
+<td><b>&nbsp; &nbsp; From: &nbsp; </b></td>
+<td><input type=TEXT name="qb1" size=7 value="0.">
+</td>
+<td><b>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; To: &nbsp; </b></td>
+<td><input type=TEXT name="qb2" size=7 value="90.">
+</td>
+</tr>
+</table>
+<br>
+
+<font color="red"><b>Intensity control: </b></font><sub>&nbsp;</sub><br>
+<b>&nbsp; &nbsp; Minimum |xh/x0| (%): &nbsp; </b>
+<input type=TEXT name="prcmin" size=7 value="0."><b>&nbsp; </b>
+<br>
+
+<nobr><b>&nbsp; &nbsp;<sup>&nbsp;</sup>Database option for dispersion corrections df1, df2:<sub>&nbsp;</sub></b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="df1df2" CHECKED value=-1>Auto (Henke at low energy, X0h at mid, Brennan-Cowan at high).</b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="df1df2"         value=0>Use X0h data (5-25 keV or 0.5-2.5 A) -- recommended for Bragg diffraction.</b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="df1df2"         value=2>Use Henke data (0.01-30 keV or 0.4-1200 A) -- recommended for soft x-rays.</b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="df1df2"         value=4>Use Brennan-Cowan data (0.03-700 keV or 0.02-400 A)</b></nobr>
+<p>
+
+
+<font color="red"><b>Find only those Bragg planes which make certain angles to the surface: </b></font><sub>&nbsp;</sub><br>
+<nobr><b>&nbsp; &nbsp; Surface plane indices: &nbsp; </b>
+<input type=TEXT name="base1" size=3 value="1">
+<input type=TEXT name="base2" size=3 value="0">
+<input type=TEXT name="base3" size=3 value="0">
+<sub>&nbsp;</sub></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="modesearch" CHECKED value=3>Planes make angles from Theta1 to Theta2</b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="modesearch"         value=2>Planes make angles from Theta1 to (Bragg_Angle - Theta2)</b></nobr><br>
+<nobr><b>&nbsp; &nbsp;<input type=RADIO name="modesearch"         value=1>Planes make angles from (Bragg_Angle - Theta1) to (Bragg_Angle - Theta2)</b></nobr><br>
+<table>
+<tr>
+<td><b>&nbsp; &nbsp; Theta1: &nbsp; </b></td>
+<td><input type=TEXT name="q1" size=7 value="0.">
+</td>
+<td><b>&nbsp; &nbsp; Theta2: &nbsp; </b></td>
+<td><input type=TEXT name="q2" size=7 value="180.">
+</td>
+</tr>
+</table>
+<br>
+
+<input type=SUBMIT value="Find Planes!"><input type=RESET> <br>
+</form>
+</td></tr></table>
+</td></tr></table>
+<br>
+
+<HR>
+<table>
+<!-- Insert site navigation -->
+</table>
+
+<br>&nbsp;<br>
+
+<table border=2 cellpadding=6 cellspacing=0 bgcolor="#ffffff" bordercolor="#c1c1c1" width="66%"><TR><td><B>
+<font color="red">ATTENTION:</font> New structure submissions are welcome. Submissions are normally added to the
+database within a day. <a href="structure_submission_example.txt">Click here</a>
+for instructions how to submit a structure. Please, e-mail structure descriptions
+to <img src="images/sstepanov_email_w.gif" class="email" ALIGN="absmiddle">.
+</B></td></tr></table>
+
+<br>&nbsp;<br>
+
+<!-- Insert change date -->
+
+</body>
+</html>

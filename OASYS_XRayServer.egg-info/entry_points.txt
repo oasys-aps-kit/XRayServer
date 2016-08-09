@@ -1,0 +1,6 @@
+[oasys.addons]
+xrayserver = orangecontrib.xrayserver
+
+[oasys.widgets]
+X-Ray Server = orangecontrib.xrayserver.widgets.xrayserver
+

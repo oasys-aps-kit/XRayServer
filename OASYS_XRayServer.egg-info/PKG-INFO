@@ -1,0 +1,25 @@
+Metadata-Version: 1.1
+Name: OASYS-XRayServer
+Version: 1.0.0
+Summary: X-Ray Server: Sergey Stepanov's X-Ray Server on OASYS
+Home-page: https://github.com/lucarebuffi/XRayServer
+Author: Luca Rebuffi
+Author-email: luca.rebuffi@elettra.eu
+License: GPLv3
+Download-URL: https://github.com/lucarebuffi/XRayServer
+Description: 
+        This is the WORKING project for XRayServer (Sergey Stepanov's X-Ray Server under OASYS)
+        
+        THIS VERSION IS UNDER DEVELOPMENT AND IS HIGLY INSTABLE:
+        
+                     INSTALLATION IS NOT RECOMENDED!!!!
+        
+        
+Keywords: X-ray optics,simulator,oasys
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Environment :: Console
+Classifier: Environment :: Plugins
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Science/Research

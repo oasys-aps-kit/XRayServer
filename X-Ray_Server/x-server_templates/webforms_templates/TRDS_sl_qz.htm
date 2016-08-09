@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+<head>
+<!-- Insert html base -->
+   <link rel=stylesheet href="style_form.css" type="text/css">
+   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Sergey Stepanov">
+   <meta name="Description" content="This page provides WEB interface to
+    calculations of grazing-incidence x-ray scattering from interface
+    roughness in multilayers.">
+   <meta name="KeyWords" content="X-ray reflection, X-ray scattering,
+    X-ray material science, X-ray analysis, multilayers, roughness">
+    <title>X-ray scattering from roughness on the Web</title>
+   <script language="javascript" type="text/javascript" src="trds_sl.js"></script>
+</head>
+<body onload="setOnloads()">
+
+<center><img src="images/trds_sl.gif" width=372 height=93 alt="TRDS_sl on the Web:
+X-ray diffuse scattering from multilayers with rough interfaces at grazing
+incidence" border=1></center><p>
+
+<center><h4>
+Template: qz-sections of reciprocal space
+</h4></center>
+<br>
+
+<center>
+<NOSCRIPT><h3><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;
+<font color="red">Please enable JavaScript in Web Browser for this webform to work correctly</font></h3></NOSCRIPT>
+<form action="/cgi/TRDS_frm.pl" METHOD="post" name="trdsform" onsubmit="return trds_validate()">
+<input type=hidden name="comment1" value="Template: POST/TRDS_sl_qz.htm">
+<table cellspacing=0 cellpadding=0 border=0 bgcolor="#c1c1c1"><tr><td>
+<table border=1 bgcolor="#c1c1c1" bordercolor="#800000" cellpadding=5><TR><td colspan=2>
+<nobr>
+<b>X-rays specified by: </b>
+<select name="xway" onClick="switchXrayFields()">
+  <option selected value=1>Wavelength (A)
+  <option          value=2>Energy (KeV)
+  <option          value=3>X-ray line
+</select><b>&nbsp; </b>
+
+Value=<input name="wave" size=10 value="1.540562">
+
+Line=<select name="line">
+<option>
+<!-- x0hdb=waves default=Cu-Ka1 -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=waves','WaveHelp',500,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;</b>
+Polarization=<select name="ipol">
+ <option selected value=1>Sigma
+ <option value=2>Pi
+</select>
+</nobr>
+<p>
+
+<table><tr valign=middle>
+<td><nobr><b>Substrate:</b></nobr></td>
+<td><nobr><input type=RADIO name="subway" value=1 onClick="switchSubstrate()" CHECKED></nobr></td>
+<td><nobr>Database code:</nobr></td>
+<td><nobr><select name="code">
+<option>
+<!-- x0hdb=all+atoms default=GaAs expand=select -->
+</select>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=all%2Batoms','AllHelp',700,250);"><img src="images/questmark.gif" width=18 height=18 border=0 alt="Help" align="absmiddle"></a>
+</nobr></td>
+<td><nobr>&nbsp; &nbsp;
+<select name="df1df2">
+       <option selected value=-1>Automatic DB for f',f"
+       <option          value=0>X0h data (5-25keV; 0.5-2.5A)
+       <option          value=2>Henke data (0.01-30keV; 0.4-1200A)
+       <option          value=4>Brennan data (0.03-700keV; 0.02-400A)
+</select></nobr></td></tr>
+<tr valign=middle>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr><input type=RADIO name="subway" value=2 onClick="switchSubstrate()"></nobr></td>
+	  <td><nobr>Chemical formula: </nobr></td>
+    	  <td><nobr><input type=TEXT name="chem" size=16>&nbsp; &nbsp; </nobr></td>
+	  <td><nobr>rho=<input type=TEXT name="rho" size=8> g/cm^3 &nbsp; </nobr></td></tr>
+<tr valign=middle>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr><input type=RADIO name="subway" value=3 onClick="switchSubstrate()"></nobr></td>
+	  <td><nobr>Susceptibility x0 = (</nobr></td>
+    	  <td><nobr><input type=TEXT name="x0" size=16>&nbsp; )&nbsp;</nobr></td>
+	  <td><nobr> / format: x0=(Re(x0), Im(x0)); note: x0=2*delta /</nobr></td></tr>
+<tr valign=middle>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr>x0 correction: w0 =</nobr></td>
+	  <td><nobr><input type=TEXT name="w0" size=5 value="1.">&nbsp; &nbsp; </nobr></td>
+	  <td><nobr> / this is used as: x0 = w0 * x0 /</nobr></td></tr>
+<tr valign=middle>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr>&nbsp;</nobr></td>
+	  <td><nobr>Roughness: sigma =</nobr></td>
+    	  <td><nobr><input type=TEXT name="sigma" size=5 value="3."> Angstrom &nbsp; &nbsp;</nobr></td>
+	  <td><nobr> / this is rms roughness height / </nobr></td></tr>
+</table>
+<p>
+
+<nobr>
+<b>Type of scan:&nbsp;&nbsp;</b>
+<select name="scan" onClick="switchScan()">
+ <option value=1>Q-scans at fixed 2Q
+ <option value=2>Q-2Q scans at fixed Q-offsets
+ <option value=3>2Q (detector) scans at fixed Q
+ <option value=4 selected>qx scans at fixed qz
+</select><b>&nbsp;&nbsp;</b>
+Units for Q,2Q:
+<select name="unis">
+ <option value=0 selected>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3>sec.
+ <option value=4>urad
+</select><b>&nbsp;&nbsp;</b>
+Units for qx,qz:
+<select name="unia">
+ <option value=0 selected>1/A
+</select><b>&nbsp;&nbsp;</b>
+</nobr><br>
+
+<nobr>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scan limits:&nbsp;&nbsp;</b>
+from <input type=TEXT name="scanmin" size=7 value=".0005"><b>&nbsp;</b>
+  to <input type=TEXT name="scanmax" size=7 value=".0005"><b>&nbsp;</b>
+points=<input name="nscan" size=5 value="1"><b>&nbsp;</b>
+</nobr><br>
+
+<nobr>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;Offset limits:&nbsp;&nbsp;</b>
+from <input type=TEXT name="offmin" size=7 value="0."><b>&nbsp;</b>
+  to <input type=TEXT name="offmax" size=7 value="0.2"><b>&nbsp;</b>
+points=<input name="noff" size=5 value="201"><b>&nbsp;</b>
+</nobr><br>
+
+<nobr>
+<b>Compute at specular rod:&nbsp;&nbsp;&nbsp;&nbsp;</b>
+<input type=RADIO name="spec" value=0>scattering<b>&nbsp;&nbsp;&nbsp;&nbsp;</b>
+<input type=RADIO name="spec" value=1 checked>reflection
+</nobr>
+<p>
+
+<nobr>
+<b>Accelerators:&nbsp;&nbsp;&nbsp;</b>
+<input type=checkbox name="Fourier" value=1>Use K instead of exp(K)-1<b>&nbsp;&nbsp;&nbsp;</b>
+<input type=checkbox name="Born" value=1>Use semi-Born approxim.: neglect scatt.from reflected waves
+</nobr>
+<br>
+
+<table border=0 cellspacing=1>
+<tr valign="top">
+  <td rowspan=2><nobr><b>Roughness:&nbsp;&nbsp;</b></nobr></td>
+  <td><nobr>lateral correlation length=<input type=TEXT name="Lh" size=7 value="1000."> A</nobr></td>
+  <td width="40"><nobr>&nbsp;</nobr></td>
+  <td><nobr>jaggedness=<input name="jagg" size=3 value="1."></nobr></td>
+</tr>
+<tr valign="top">
+  <td><nobr>vertical correlation length=<input type=TEXT name="Lv" size=7> A&nbsp;</nobr></td>
+  <td width="40"><nobr>&nbsp;</nobr></td>
+  <td><nobr>angle of skew transfer=<input type=TEXT name="skew" size=7 value="0.">&nbsp;
+ <select name="uniw">
+ <option value=0 selected>degr.
+ <option value=1>min.
+ <option value=2>mrad.
+ <option value=3>sec.
+ <option value=4>urad
+</select>
+</nobr></td>
+</tr>
+</table>
+
+<table border=1>
+<tr>
+  <td valign=top rowspan=9><nobr><b>Models:&nbsp;</b></nobr></td>
+  <td><input type=RADIO name="model" value=1 onClick="switchModel()"><nobr>Uncorrelated roughness</nobr></td>
+  <td colspan=2><nobr>&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=2 onClick="switchModel()" CHECKED><nobr>Completely correlated roughness &nbsp;</nobr></td>
+  <td colspan=2><nobr>&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=3 onClick="switchModel()"><nobr>Ming's model</nobr></td>
+  <td colspan=2><nobr>&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=4 onClick="switchModel()"><nobr>Lagally's model</nobr></td>
+  <td colspan=2><nobr>lateral size of vertically correlated roughness=<input type=TEXT name="Lh2" size=7>A</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=5 onClick="switchModel()"><nobr>Holy's model</nobr></td>
+  <td colspan=2><nobr>&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=6 onClick="switchModel()"><nobr>Spiller's model (*very slow!*)</nobr></td>
+  <td colspan=2><nobr>&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=7 onClick="switchModel()"><nobr>Classic Pukite's model (steps)</nobr></td>
+  <td><nobr>&nbsp;</nobr></td>
+  <td rowspan=3><table border=0 cellpadding="5" cellspacing="0">
+     <tr><td><nobr><b>Data for all steps models:</b></nobr></td></tr>
+     <tr><td><nobr>miscut angle=<input type=TEXT name="Qm" size=5>
+             <select name="unim">
+               <option value=0 selected>degr.
+               <option value=1>min.
+               <option value=2>mrad.
+               <option value=3>sec.
+               <option value=4>urad
+             </select></nobr></td></tr>
+     <tr><td><input type=checkbox name="add" value=1>Add affine roughness</td></tr></table></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=8 onClick="switchModel()"><nobr>Smoothed Pukite's model (steps)</nobr></td>
+  <td><nobr>effect.rms height of steps=<input type=TEXT name="stepH" size=4> A&nbsp;</nobr></td>
+</tr>
+<tr>
+  <td><input type=RADIO name="model" value=9 onClick="switchModel()"><nobr>Pershan's model (steps)</nobr></td>
+  <td><nobr>terraces size spread=<input type=TEXT name="spread" size=7> A&nbsp;</nobr></td>
+</tr>
+</table>
+<br>
+
+<input type=checkbox name="watch" value=1><b>watch progress &nbsp;</b>
+<input type=SUBMIT value="Submit Query"> (single click, please!)
+</td></tr>
+<TR><td>
+
+<b>Top layer profile <i>(optional)</i>:</b><br>
+&nbsp; period= <br>
+&nbsp; &nbsp; t=&nbsp;&nbsp; sigma=&nbsp;&nbsp; tr=&nbsp;&nbsp;  code=&nbsp;&nbsp; rho=&nbsp;&nbsp;
+              x=&nbsp;&nbsp; code2=&nbsp;&nbsp; x2=&nbsp;&nbsp; code3=&nbsp;&nbsp; x3=&nbsp;&nbsp; code4=&nbsp;&nbsp; x0=&nbsp;&nbsp; w0= <br>
+&nbsp; end period <br>
+<TEXTAREA name="profile" ROWS=17 COLS=70>
+</TEXTAREA>
+
+<p><input type="submit" value="Submit Query"> (same &quot;Submit&quot; action as above; single click, please!)</p>
+<table border="0" cellpadding="0" cellspacing="0"><tr VALIGN="middle">
+  <td><img src="images/warning-sign_25x21.gif" ALIGN="absmiddle">&nbsp;</td>
+  <td><a href="News.html#POST" target=_blank><b><small>The profiles are restricted to 5000 layers after applying periods.</small></b></a><br>
+      <a href="News.html#antispam" target=_blank><b><small>Do not use links or unusual words in surface layer profile!</small></b></a></td>
+</tr></table>
+
+</td>
+<td VALIGN=BOTTOM>
+<b><font color=red>Available codes:</font></b><br>
+<b>(use Copy/Paste)</b><br>
+<TEXTAREA ROWS=21 COLS=9>
+<!-- x0hdb=all+atoms expand=plain -->
+</TEXTAREA><br>
+<a href="javascript:void(0)" onClick="LargeFloat('/cgi/WWW_dbli.exe?x0hdb=all%2Batoms','AllHelp',700,250);">More details</a>
+</td></tr></table>
+</td></tr></table>
+</form>
+</center>
+
+<HR>
+<table>
+<TR valign="middle">
+    <td align=center><img src="images/classic.gif" width=40 height=40 ALT="Beta" border=0></td>
+    <td>Please, report problems and send comments to
+        <font color="#800000"><b><u><img src="images/sstepanov_email.gif" class="email" border=0 ALIGN="absbottom"></u></b></font>
+    </td>
+</tr>
+<!-- Insert site navigation -->
+<tr valign="middle">
+    <td align=center><img src="images/xtemplate.gif" width=32 height=32 ALT="X-templates" border=0></td>
+    <td><form action="javascript:void(0)"><B>TRDS_SL templates:</B>
+    <select Name="template">
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_omega.htm">Sample rotations at a fixed detector position</option>
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_long.htm">Theta-2Theta scans with offset</option>
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_PSD.htm">Detector scans at a fixed sample position</option>
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_qx.htm">qx-sections of reciprocal space</option>
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_qz.htm">qz-sections of reciprocal space</option>
+    <option Value="/cgi/WWW_form.exe?template=TRDS_sl_map.htm">(qx,qz)-maps of reciprocal space</option>
+    </select>
+    <input Type=button Value="Go!" onClick="window.location.href=this.form.template.options[this.form.template.selectedIndex].value">
+    </form>
+    </td>
+</tr>
+</table><p>
+
+<!-- Insert change date -->
+
+</body>
+</HTML>
