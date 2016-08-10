@@ -15,6 +15,7 @@ from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextD
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 
 from PyQt4 import QtGui
+from PyQt4.QtWebKit import QWebView
 
 APPLICATION = "/cgi/X0h_form.exe"
 
@@ -140,8 +141,7 @@ class X0h(widget.OWWidget):
         self.tabs_widget = gui.tabWidget(self.mainArea)
         self.initializeTabs()
 
-        self.x0h_output = QtGui.QTextEdit()
-        self.x0h_output.setReadOnly(True)
+        self.x0h_output = QWebView(self.tabs[0])
 
         self.tabs[0].layout().addWidget(self.x0h_output)
 
@@ -185,7 +185,7 @@ class X0h(widget.OWWidget):
         
         self.checkFields()
 
-        self.x0h_output.clear()
+        #self.x0h_output.clear()
 
         parameters = {}
 
@@ -203,30 +203,52 @@ class X0h(widget.OWWidget):
         parameters.update({"i3" : str(self.i3)})
         parameters.update({"df1df2" : self.decode_df1df2()})
 
-        parameters.update({"modeout" : "1" })
+        parameters.update({"modeout" : "0" })
         parameters.update({"detail" : str(self.detail)})
 
         try:
             response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
-            response = response.split("</table></font></center>")[0] + "\n</body></html>"
+            response = self.clear_response(response)
 
             self.tabs_widget.setCurrentIndex(0)
-            self.x0h_output.setText(response)
+            self.x0h_output.setHtml(response)
 
             data = self.extract_plots(response)
 
             self.send("X0h_Result", data)
 
         except urllib.error.HTTPError as e:
-            self.x0h_output.setText('The server couldn\'t fulfill the request.\nError Code: '
+            self.x0h_output.setHtml('The server couldn\'t fulfill the request.\nError Code: '
                                     + str(e.code) + "\n\n" +
                                     server.BaseHTTPRequestHandler.responses[e.code][1])
         except urllib.error.URLError as e:
-            self.x0h_output.setText('We failed to reach a server.\nReason: '
+            self.x0h_output.setHtml('We failed to reach a server.\nReason: '
                                     + e.reason)
+        except Exception as e:
+            self.x0h_output.setHtml('We failed to reach a server.\nReason: '
+                                    + str(e))
 
         self.setStatusMessage("")
         self.progressBarFinished()
+
+    def clear_response(self, response):
+        # remove links
+        temp = response.split("<hr>")[0] + "\n</body></html>"
+
+        # remove "get the curve" images
+        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the reflectivity curve\">")
+        temp = temp[0] + temp[1]
+        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the Bragg curve (sigma)\">")
+        temp = temp[0] + temp[1]
+        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the Bragg curve (pi)\">")
+        temp = temp[0] + temp[1]
+
+        # remove question mark images and links
+        temp = "".join(temp.split("<a  href=\"javascript:void(0)\" onClick=\"Wfloat(\'images/x0h_help_0.gif\',\'x0h_0\',740,357);\"><b>?</b></a> &nbsp;"))
+        temp = "".join(temp.split("<a  href=\"javascript:void(0)\" onClick=\"Wfloat(\'images/x0h_help_h.gif\',\'x0h_h\',705,853);\"><b>?</b></a> &nbsp;"))
+
+        return temp
+
 
     def checkFields(self):
         pass
@@ -248,17 +270,19 @@ class X0h(widget.OWWidget):
         form_2 = None
         form_3 = None
 
-        rows = response.split("\n")
+        rows = response.split("\r\n")
+
+        print (rows)
 
         for row in rows:
             if form_1_begin:
-                if "<pre>" in row:
+                if "<td>" in row:
                     form_1_begin = False
             elif form_2_begin:
-                if "<pre>" in row:
+                if "<td>" in row:
                     form_2_begin = False
             elif form_3_begin:
-                if "<pre>" in row:
+                if "<td>" in row:
                     form_3_begin = False
 
             if form_1_begin:
@@ -286,7 +310,7 @@ class X0h(widget.OWWidget):
         if not form_1 is None:
             x_1, y_1 = self.get_plots_from_form("/cgi/ter_form.pl", form_1)
 
-            self.plot_histo(x_1, y_1, 40, 0, "Critical Angle for TER")
+            self.plot_histo(x_1, y_1, 40, 0, "Critical Angle for TER", "Incidence angle [degrees]", "Reflectivity")
             self.tabs_widget.setCurrentIndex(1)
         else:
             x_1 = None
@@ -295,7 +319,7 @@ class X0h(widget.OWWidget):
         if not form_2 is None:
             x_2, y_2 = self.get_plots_from_form("/cgi/gid_form.pl", form_2)
 
-            self.plot_histo(x_2, y_2, 60, 1, "Darwin Curve ($\sigma$ Pol.)")
+            self.plot_histo(x_2, y_2, 60, 1, "Darwin Curve ($\sigma$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
             self.tabs_widget.setCurrentIndex(2)
         else:
             x_2 = None
@@ -304,7 +328,7 @@ class X0h(widget.OWWidget):
         if not form_3 is None:
             x_3, y_3 = self.get_plots_from_form("/cgi/gid_form.pl", form_3)
 
-            self.plot_histo(x_3, y_3, 80, 2, "Darwin Curve ($\pi$ Pol.)")
+            self.plot_histo(x_3, y_3, 80, 2, "Darwin Curve ($\pi$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
             self.tabs_widget.setCurrentIndex(3)
         else:
             x_3 = None
@@ -322,15 +346,16 @@ class X0h(widget.OWWidget):
         parameters = {}
 
         for row in form:
-            temp = (row.split("name=\"")[1]).split("\"")
-            key = temp[0]
+            if "input" in row and "hidden" in row:
+                temp = (row.split("name=\"")[1]).split("\"")
+                key = temp[0]
 
-            if len(temp) == 2:
-                value = ((temp[1].split("value=")[1]).split(">")[0]).strip()
-            else:
-                value = temp[2].strip()
+                if len(temp) == 2:
+                    value = ((temp[1].split("value=")[1]).split(">")[0]).strip()
+                else:
+                    value = temp[2].strip()
 
-            parameters.update({key : value})
+                parameters.update({key : value})
 
         return parameters
 

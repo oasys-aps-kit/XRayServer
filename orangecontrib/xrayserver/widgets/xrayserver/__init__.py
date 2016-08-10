@@ -17,4 +17,4 @@ BACKGROUND = "#FFFFFF"
 
 ICON = "icons/xrayserver.png"
 
-PRIORITY = 2004
+PRIORITY = 3001
