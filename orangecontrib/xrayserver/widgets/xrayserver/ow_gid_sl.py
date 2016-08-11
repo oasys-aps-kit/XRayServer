@@ -46,7 +46,7 @@ class X0h(widget.OWWidget):
 
     ipol = Setting(0)
 
-    code = Setting("Silicon")
+    code = Setting("Germanium")
     df1df2 = Setting(0)
 
     sigma = Setting(0.0)
@@ -99,7 +99,7 @@ class X0h(widget.OWWidget):
         left_box_1 = oasysgui.widgetBox(self.controlArea, "GID_SL Request Form", addSpace=True, orientation="vertical",
                                          width=400, height=630)
 
-        left_box_1_1 = oasysgui.widgetBox(left_box_1, "Input Options", addSpace=True, orientation="vertical", width=380, height=190)
+        left_box_1_1 = oasysgui.widgetBox(left_box_1, "Template Options", addSpace=True, orientation="vertical", width=380, height=190)
 
         gui.comboBox(left_box_1_1, self, "template_type", label="Template Type", labelWidth=100,
                      items=["Simplified (coplanar geometries only)", "Full"],
@@ -123,11 +123,13 @@ class X0h(widget.OWWidget):
                           "Grazing incidence (\"surface\") diffraction from perfect\ncrystals"],
                          callback=self.set_FullForm)
 
-        self.set_TemplateType(change_values=False)
+        central_tabs = gui.tabWidget(left_box_1)
+        tab_input = gui.createTabPage(central_tabs, "Input Options")
+        tab_top = gui.createTabPage(central_tabs, "Top Layer Profile (optional)")
 
-        left_box_2 = oasysgui.widgetBox(left_box_1, "", addSpace=True, orientation="vertical", width=380, height=60)
+        left_box_2 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370, height=60)
 
-        left_box_2_1 = oasysgui.widgetBox(left_box_2, "", addSpace=True, orientation="horizontal", width=380, height=30)
+        left_box_2_1 = oasysgui.widgetBox(left_box_2, "", addSpace=True, orientation="horizontal", width=370, height=30)
 
         gui.comboBox(left_box_2_1, self, "xway", label="X-rays specified by", labelWidth=120,
                      items=["Wavelength (Å)", "Energy (keV)", "Bragg angle (deg)", "X-ray line"],
@@ -151,10 +153,10 @@ class X0h(widget.OWWidget):
 
 
 
-        left_box_3 = oasysgui.widgetBox(left_box_1, "", addSpace=True, orientation="vertical", width=380, height=60)
+        left_box_3 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370, height=60)
 
-        left_box_3_1 = oasysgui.widgetBox(left_box_3, "", addSpace=True, orientation="horizontal", width=380)
-        XRayServerGui.combobox_text(left_box_3_1, self, "code", label="Crystal", labelWidth=50,
+        left_box_3_1 = oasysgui.widgetBox(left_box_3, "", addSpace=True, orientation="horizontal", width=370)
+        XRayServerGui.combobox_text(left_box_3_1, self, "code", label="Crystal", labelWidth=40,
                                items=self.get_crystals(),
                                sendSelectedValue=True, orientation="horizontal", selectedValue=self.code)
 
@@ -169,26 +171,72 @@ class X0h(widget.OWWidget):
                             "Brennan (0.02-400 A)"],
                      sendSelectedValue=False, orientation="horizontal")
 
-        left_box_3_2 = oasysgui.widgetBox(left_box_3, "", addSpace=True, orientation="horizontal", width=380)
+        left_box_3_2 = oasysgui.widgetBox(left_box_3, "", addSpace=True, orientation="horizontal", width=370)
 
-        gui.lineEdit(left_box_3_2, self, "sigma", label="Sigma", labelWidth=90, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_3_2, self, "w0", label="A   W0", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_3_2, self, "wh", label="  Wh", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
+        gui.lineEdit(left_box_3_2, self, "sigma", label="Sigma", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        gui.lineEdit(left_box_3_2, self, "w0", label="A      W0", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
+        gui.lineEdit(left_box_3_2, self, "wh", label="        Wh", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
 
-        '''
-        left_box_4 = oasysgui.widgetBox(left_box_1, "Reflection", addSpace=True, orientation="horizontal", width=380, height=60)
+        left_box_4 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="horizontal", width=370, height=60)
 
-        gui.lineEdit(left_box_4, self, "i1", label="Miller indices", labelWidth=200, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "i2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "i3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        left_box_4_1 = oasysgui.widgetBox(left_box_4, "", addSpace=True, orientation="horizontal", width=190)
 
-        left_box_5 = oasysgui.widgetBox(left_box_1, "Database Options for dispersion corrections df1, df2", addSpace=True, orientation="vertical", width=380, height=185)
+        gui.lineEdit(left_box_4_1, self, "i1", label="Bragg Reflection", labelWidth=97, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(left_box_4_1, self, "i2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(left_box_4_1, self, "i3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
+        left_box_4_2 = oasysgui.widgetBox(left_box_4, "", addSpace=True, orientation="horizontal", width=178)
 
-        left_box_6 = oasysgui.widgetBox(left_box_1, "Output Options", addSpace=True, orientation="vertical", width=380, height=50)
+        gui.lineEdit(left_box_4_2, self, "daa", label="  Substrate da/a", labelWidth=95, addSpace=False, valueType=float, orientation="horizontal")
 
-        gui.checkBox(left_box_6, self, "detail", "Print atomic coordinates", labelWidth=250)
-        '''
+        self.simplified_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
+
+        self.full_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
+
+        box_top = oasysgui.widgetBox(tab_top, "", addSpace=True, orientation="vertical", width=370)
+
+        gui.label(box_top, self, "period=\nt= sigma= da/a= code= x= code2= x2= code3= x3= code4= \\\nx0= xh= xhdf= w0= wh=\nend period")
+
+        self.profile_area = QtGui.QTextEdit()
+        self.profile_area.setMaximumHeight(190)
+        self.profile_area.setMaximumWidth(370)
+        box_top.layout().addWidget(self.profile_area)
+
+        gui.label(box_top, self, "Available Codes:")
+
+        box_top_labels = oasysgui.widgetBox(box_top, "", addSpace=True, orientation="horizontal", width=370)
+
+        gui.label(box_top_labels, self, "Crystals")
+        gui.label(box_top_labels, self, "Non-Crystals")
+        gui.label(box_top_labels, self, "Elements")
+
+        box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=True, orientation="horizontal", width=370)
+
+        crystals_area = QtGui.QTextEdit()
+        crystals_area.setMaximumHeight(110)
+        crystals_area.setMaximumWidth(120)
+        crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
+        crystals_area.setReadOnly(True)
+
+        non_crystals_area = QtGui.QTextEdit()
+        non_crystals_area.setMaximumHeight(110)
+        non_crystals_area.setMaximumWidth(120)
+        non_crystals_area.setText("\n".join(ListUtility.get_list("amorphous")))
+        non_crystals_area.setReadOnly(True)
+
+        elements_area = QtGui.QTextEdit()
+        elements_area.setMaximumHeight(110)
+        elements_area.setMaximumWidth(120)
+        elements_area.setText("\n".join(ListUtility.get_list("atoms")))
+        elements_area.setReadOnly(True)
+
+        box_top_1.layout().addWidget(crystals_area)
+        box_top_1.layout().addWidget(non_crystals_area)
+        box_top_1.layout().addWidget(elements_area)
+
+        # -----------------------------------------------------------
+
+        self.set_TemplateType(change_values=False)
 
         button = gui.button(self.controlArea, self, "Submit Query!", callback=self.submit)
         button.setFixedHeight(30)
@@ -199,15 +247,23 @@ class X0h(widget.OWWidget):
         self.tabs_widget = gui.tabWidget(self.mainArea)
         self.initializeTabs()
 
+        self.profile_area.textChanged.connect(self.set_profile)
+
+    def set_profile(self):
+        self.profile = self.profile_area.toPlainText()
 
     def set_TemplateType(self, change_values=True):
         if self.template_type == 0:
             self.simplified_box.setVisible(True)
             self.full_box.setVisible(False)
+            self.simplified_input_box.setVisible(True)
+            self.full_input_box.setVisible(False)
             self.set_SimplifiedForm(change_values)
         else:
             self.simplified_box.setVisible(False)
             self.full_box.setVisible(True)
+            self.simplified_input_box.setVisible(False)
+            self.full_input_box.setVisible(True)
             self.set_FullForm(change_values)
 
     def set_SimplifiedForm(self, change_values=True):
@@ -216,21 +272,76 @@ class X0h(widget.OWWidget):
                 self.xway=0
                 self.wave=1.540562
                 self.ipol=0
+
+                self.code = "Germanium"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 1
+                self.i2 = 1
+                self.i3 = 1
+                self.daa = 0.0
+
+                self.profile_area.setText("")
+
         elif self.simplified_form==1:
             if change_values:
                 self.xway=0
                 self.wave=1.540562
                 self.ipol=0
+
+                self.code = "GaAs"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 4
+                self.i2 = 0
+                self.i3 = 0
+                self.daa = 0.0
+
+                self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
+
         elif self.simplified_form==2:
             if change_values:
                 self.xway=1
                 self.wave=13.934425
                 self.ipol=0
+
+                self.code = "Diamond"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 8
+                self.i2 = 0
+                self.i3 = 0
+                self.daa = 0.0
+
+                self.profile_area.setText("")
+
         elif self.simplified_form==3:
             if change_values:
                 self.xway=2
                 self.wave=89.0
                 self.ipol=0
+
+                self.code = "Diamond"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 8
+                self.i2 = 0
+                self.i3 = 0
+                self.daa = 0.0
+
+                self.profile_area.setText("")
 
     def set_FullForm(self, change_values=True):
         if self.full_form==0:
@@ -238,21 +349,76 @@ class X0h(widget.OWWidget):
                 self.xway=0
                 self.wave=1.540562
                 self.ipol=0
+
+                self.code = "Germanium"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 1
+                self.i2 = 1
+                self.i3 = 1
+                self.daa = 0.0
+
+                self.profile_area.setText("")
+
         elif self.full_form==1:
             if change_values:
                 self.xway=0
                 self.wave=1.540562
                 self.ipol=0
+
+                self.code = "GaAs"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 4
+                self.i2 = 0
+                self.i3 = 0
+                self.daa = 0.0
+
+                self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
+
         elif self.full_form==2:
             if change_values:
                 self.xway=1
                 self.wave=8.3
                 self.ipol=0
+
+                self.code = "Germanium"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 1
+                self.i2 = 1
+                self.i3 = 1
+                self.daa = 0.0
+
+                self.profile_area.setText("")
+
         elif self.full_form==3:
             if change_values:
                 self.xway=0
                 self.wave=1.540562
                 self.ipol=0
+
+                self.code = "Germanium"
+                self.df1df2 = 0
+                self.sigma = 0.0
+                self.w0 = 1.0
+                self.wh = 1.0
+
+                self.i1 = 1
+                self.i2 = 1
+                self.i3 = 1
+                self.daa = 0.0
+
+                self.profile_area.setText("")
 
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=3)
@@ -326,23 +492,6 @@ class X0h(widget.OWWidget):
         self.setStatusMessage("")
         self.progressBarFinished()
 
-    def clear_response(self, response):
-        # remove links
-        temp = response.split("<hr>")[0] + "\n</body></html>"
-
-        # remove "get the curve" images
-        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the reflectivity curve\">")
-        temp = temp[0] + temp[1]
-        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the Bragg curve (sigma)\">")
-        temp = temp[0] + temp[1]
-        temp = temp.split("<input type=image src=\"images/get_the_curve.gif\" border=0 width=102 height=12 alt=\"Get the Bragg curve (pi)\">")
-        temp = temp[0] + temp[1]
-
-        # remove question mark images and links
-        temp = "".join(temp.split("<a  href=\"javascript:void(0)\" onClick=\"Wfloat(\'images/x0h_help_0.gif\',\'x0h_0\',740,357);\"><b>?</b></a> &nbsp;"))
-        temp = "".join(temp.split("<a  href=\"javascript:void(0)\" onClick=\"Wfloat(\'images/x0h_help_h.gif\',\'x0h_h\',705,853);\"><b>?</b></a> &nbsp;"))
-
-        return temp
 
 
     def checkFields(self):
@@ -353,106 +502,18 @@ class X0h(widget.OWWidget):
         elif self.df1df2 == 1: return "0"
         elif self.df1df2 == 2: return "2"
         elif self.df1df2 == 3: return "4"
-        elif self.df1df2 == 4: return "10"
 
 
     def extract_plots(self, response):
-        form_1_begin = False
-        form_2_begin = False
-        form_3_begin = False
-
-        form_1 = None
-        form_2 = None
-        form_3 = None
-
-        rows = response.split("\r\n")
-
-        print (rows)
-
-        for row in rows:
-            if form_1_begin:
-                if "<td>" in row:
-                    form_1_begin = False
-            elif form_2_begin:
-                if "<td>" in row:
-                    form_2_begin = False
-            elif form_3_begin:
-                if "<td>" in row:
-                    form_3_begin = False
-
-            if form_1_begin:
-                form_1.append(row)
-            elif form_2_begin:
-                form_2.append(row)
-            elif form_3_begin:
-                form_3.append(row)
-
-            if "/cgi/ter_form.pl" in row:
-                if form_1 is None:
-                    form_1 = []
-                    form_1_begin = True
-
-            if "/cgi/gid_form.pl" in row:
-                if form_2 is None:
-                    form_2 = []
-                    form_2_begin = True
-                elif form_3 is None:
-                    form_3 = []
-                    form_3_begin = True
 
         self.setStatusMessage("Plotting Results")
 
-        if not form_1 is None:
-            x_1, y_1 = self.get_plots_from_form("/cgi/ter_form.pl", form_1)
+        x_1, y_1 = self.get_data_file_from_response(response)
 
-            self.plot_histo(x_1, y_1, 40, 0, "Critical Angle for TER", "Incidence angle [degrees]", "Reflectivity")
-            self.tabs_widget.setCurrentIndex(1)
-        else:
-            x_1 = None
-            y_1 = None
-            
-        if not form_2 is None:
-            x_2, y_2 = self.get_plots_from_form("/cgi/gid_form.pl", form_2)
+        self.plot_histo(x_1, y_1, 80, 0, "X-ray Diffraction Profile", "Scan Angle [" + self.unis +"]", "Diffracted Intensity")
 
-            self.plot_histo(x_2, y_2, 60, 1, "Darwin Curve ($\sigma$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
-            self.tabs_widget.setCurrentIndex(2)
-        else:
-            x_2 = None
-            y_2 = None
+        return [x_1, y_1]
 
-        if not form_3 is None:
-            x_3, y_3 = self.get_plots_from_form("/cgi/gid_form.pl", form_3)
-
-            self.plot_histo(x_3, y_3, 80, 2, "Darwin Curve ($\pi$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
-            self.tabs_widget.setCurrentIndex(3)
-        else:
-            x_3 = None
-            y_3 = None
-
-        return [x_1, y_1], [x_2, y_2], [x_3, y_3]
-    
-    def get_plots_from_form(self, application, form):
-        response = HttpManager.send_xray_server_request_POST(application, self.get_parameters_from_form(form))
-
-        return self.get_data_file_from_response(response)
-        
-    
-    def get_parameters_from_form(self, form):
-        parameters = {}
-
-        for row in form:
-            if "input" in row and "hidden" in row:
-                temp = (row.split("name=\"")[1]).split("\"")
-                key = temp[0]
-
-                if len(temp) == 2:
-                    value = ((temp[1].split("value=")[1]).split(">")[0]).strip()
-                else:
-                    value = temp[2].strip()
-
-                parameters.update({key : value})
-
-        return parameters
 
     def get_data_file_from_response(self, response):
         rows = response.split("\n")
@@ -492,7 +553,7 @@ class X0h(widget.OWWidget):
             self.plot_canvas[plot_canvas_index].setActiveCurveColor(color='darkblue')
             self.plot_canvas[plot_canvas_index].setYAxisLogarithmic(True)
 
-            self.tabs[plot_canvas_index+1].layout().addWidget(self.plot_canvas[plot_canvas_index])
+            self.tabs[plot_canvas_index].layout().addWidget(self.plot_canvas[plot_canvas_index])
 
         XRayServerPlot.plot_histo(self.plot_canvas[plot_canvas_index], x, y, title, xtitle, ytitle)
 
