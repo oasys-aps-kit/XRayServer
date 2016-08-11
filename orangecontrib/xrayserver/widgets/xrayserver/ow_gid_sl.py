@@ -19,7 +19,7 @@ from PyQt4.QtWebKit import QWebView
 
 APPLICATION = "/cgi/GID_form.pl"
 
-class X0h(widget.OWWidget):
+class GID_SL(widget.OWWidget):
     name = "GID_SL"
     description = "GID_SL"
     icon = "icons/gidsl.png"
@@ -63,7 +63,7 @@ class X0h(widget.OWWidget):
 
     fcentre = Setting(0.0)
 
-    unic = Setting(0)
+    unic = Setting(1)
 
     n1 = Setting(0)
     n2 = Setting(0)
@@ -99,13 +99,17 @@ class X0h(widget.OWWidget):
         left_box_1 = oasysgui.widgetBox(self.controlArea, "GID_SL Request Form", addSpace=True, orientation="vertical",
                                          width=400, height=630)
 
-        left_box_1_1 = oasysgui.widgetBox(left_box_1, "Template Options", addSpace=True, orientation="vertical", width=380, height=190)
+        central_tabs = gui.tabWidget(left_box_1)
+        tab_template = gui.createTabPage(central_tabs, "Template Options")
+        tab_input = gui.createTabPage(central_tabs, "Input Options")
+
+        left_box_1_1 = oasysgui.widgetBox(tab_template, "", addSpace=True, orientation="vertical", width=370, height=620)
 
         gui.comboBox(left_box_1_1, self, "template_type", label="Template Type", labelWidth=100,
                      items=["Simplified (coplanar geometries only)", "Full"],
                      callback=self.set_TemplateType, sendSelectedValue=False, orientation="horizontal")
 
-        self.simplified_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=130)
+        self.simplified_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=220)
 
         gui.radioButtons(self.simplified_box, self, "simplified_form",
                          ["Symmetric Bragg diffraction from perfect crystals",
@@ -114,18 +118,20 @@ class X0h(widget.OWWidget):
                           "Energy scanning of symmetric Bragg diffraction peaks"],
                          callback=self.set_SimplifiedForm)
 
-        self.full_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=130)
+        self.full_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=220)
 
         gui.radioButtons(self.full_box, self, "full_form",
                          ["Symmetric Bragg diffraction from perfect crystals",
                           "Symmetric Bragg diffraction from multilayers and\nsuperlattices",
                           "Coplanar extremely asymmetric diffraction of synchrotron\nradiation",
-                          "Grazing incidence (\"surface\") diffraction from perfect\ncrystals"],
+                          "Grazing incidence (\"surface\") diffraction from perfect\ncrystals",
+                          "Grazing incidence (\"surface\") diffraction from multilayers\nin the scheme with position sensitive detector (PSD)",
+                          "Non-coplanar Bragg-Laue diffraction from crystals with a\nfew degrees surface miscut"],
                          callback=self.set_FullForm)
 
-        central_tabs = gui.tabWidget(left_box_1)
-        tab_input = gui.createTabPage(central_tabs, "Input Options")
-        tab_top = gui.createTabPage(central_tabs, "Top Layer Profile (optional)")
+        # -------------------------------------------------------------
+        # -------------------------------------------------------------
+        # -------------------------------------------------------------
 
         left_box_2 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370, height=60)
 
@@ -191,14 +197,36 @@ class X0h(widget.OWWidget):
 
         self.simplified_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
 
+        gui.comboBox(self.simplified_input_box, self, "igie", label="Geometry specified by", labelWidth=150,
+                     items=["angle of Bragg planes to surface ('+' for g0>gh)",
+                            "incidence angle of K0",
+                            "exit angle of Kh",
+                            "asymmetry factor beta=g0/gh"],
+                     callback=self.set_igie_s, sendSelectedValue=False, orientation="horizontal")
+
+        simplified_input_box_1 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=True, orientation="horizontal", width=370)
+
+        gui.lineEdit(simplified_input_box_1, self, "fcentre", label="Value", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
+
+        self.unic_combo_s = gui.comboBox(simplified_input_box_1, self, "unic", label=" ", labelWidth=1,
+                                       items=[" ",
+                                              "degr.",
+                                              "min.",
+                                              "mrad.",
+                                              "sec.",
+                                              "urad"],
+                                       sendSelectedValue=False, orientation="horizontal")
+
+        self.set_igie_s()
+
         self.full_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
 
-        box_top = oasysgui.widgetBox(tab_top, "", addSpace=True, orientation="vertical", width=370)
+        box_top = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
 
-        gui.label(box_top, self, "period=\nt= sigma= da/a= code= x= code2= x2= code3= x3= code4= \\\nx0= xh= xhdf= w0= wh=\nend period")
+        gui.label(box_top, self, "Top layer profile (optional):\nperiod=\nt= sigma= da/a= code= x= code2= x2= code3= x3= code4= \\\nx0= xh= xhdf= w0= wh=\nend period")
 
         self.profile_area = QtGui.QTextEdit()
-        self.profile_area.setMaximumHeight(190)
+        self.profile_area.setMaximumHeight(150)
         self.profile_area.setMaximumWidth(370)
         box_top.layout().addWidget(self.profile_area)
 
@@ -213,19 +241,19 @@ class X0h(widget.OWWidget):
         box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=True, orientation="horizontal", width=370)
 
         crystals_area = QtGui.QTextEdit()
-        crystals_area.setMaximumHeight(110)
+        crystals_area.setMaximumHeight(80)
         crystals_area.setMaximumWidth(120)
         crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
         crystals_area.setReadOnly(True)
 
         non_crystals_area = QtGui.QTextEdit()
-        non_crystals_area.setMaximumHeight(110)
+        non_crystals_area.setMaximumHeight(80)
         non_crystals_area.setMaximumWidth(120)
         non_crystals_area.setText("\n".join(ListUtility.get_list("amorphous")))
         non_crystals_area.setReadOnly(True)
 
         elements_area = QtGui.QTextEdit()
-        elements_area.setMaximumHeight(110)
+        elements_area.setMaximumHeight(80)
         elements_area.setMaximumWidth(120)
         elements_area.setText("\n".join(ListUtility.get_list("atoms")))
         elements_area.setReadOnly(True)
@@ -267,163 +295,136 @@ class X0h(widget.OWWidget):
             self.set_FullForm(change_values)
 
     def set_SimplifiedForm(self, change_values=True):
+        if change_values:
+            self.xway=0
+            self.ipol=0
+            self.df1df2 = 0
+            self.sigma = 0.0
+            self.w0 = 1.0
+            self.wh = 1.0
+            self.daa = 0.0
+            self.fcentre = 0.0
+            self.igie = 0
+            self.unic = 1
+            self.profile_area.setText("")
+
         if self.simplified_form==0:
             if change_values:
-                self.xway=0
                 self.wave=1.540562
-                self.ipol=0
-
                 self.code = "Germanium"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 1
                 self.i2 = 1
                 self.i3 = 1
-                self.daa = 0.0
-
-                self.profile_area.setText("")
 
         elif self.simplified_form==1:
             if change_values:
-                self.xway=0
                 self.wave=1.540562
-                self.ipol=0
-
                 self.code = "GaAs"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 4
                 self.i2 = 0
                 self.i3 = 0
-                self.daa = 0.0
-
                 self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
 
         elif self.simplified_form==2:
             if change_values:
                 self.xway=1
                 self.wave=13.934425
-                self.ipol=0
-
                 self.code = "Diamond"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 8
                 self.i2 = 0
                 self.i3 = 0
-                self.daa = 0.0
-
-                self.profile_area.setText("")
 
         elif self.simplified_form==3:
             if change_values:
                 self.xway=2
                 self.wave=89.0
-                self.ipol=0
-
                 self.code = "Diamond"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 8
                 self.i2 = 0
                 self.i3 = 0
-                self.daa = 0.0
+                self.igie = 3
 
-                self.profile_area.setText("")
+        self.set_xway()
+        self.set_igie_s()
+
 
     def set_FullForm(self, change_values=True):
+        if change_values:
+            self.xway=0
+            self.ipol=0
+            self.df1df2 = 0
+            self.sigma = 0.0
+            self.w0 = 1.0
+            self.wh = 1.0
+            self.daa = 0.0
+            self.profile_area.setText("")
+
         if self.full_form==0:
             if change_values:
-                self.xway=0
                 self.wave=1.540562
-                self.ipol=0
-
                 self.code = "Germanium"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 1
                 self.i2 = 1
                 self.i3 = 1
-                self.daa = 0.0
-
-                self.profile_area.setText("")
 
         elif self.full_form==1:
             if change_values:
-                self.xway=0
                 self.wave=1.540562
-                self.ipol=0
-
                 self.code = "GaAs"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 4
                 self.i2 = 0
                 self.i3 = 0
-                self.daa = 0.0
-
                 self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
 
         elif self.full_form==2:
             if change_values:
                 self.xway=1
                 self.wave=8.3
-                self.ipol=0
-
                 self.code = "Germanium"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 1
                 self.i2 = 1
                 self.i3 = 1
-                self.daa = 0.0
-
-                self.profile_area.setText("")
 
         elif self.full_form==3:
             if change_values:
-                self.xway=0
                 self.wave=1.540562
-                self.ipol=0
-
                 self.code = "Germanium"
-                self.df1df2 = 0
-                self.sigma = 0.0
-                self.w0 = 1.0
-                self.wh = 1.0
-
                 self.i1 = 1
                 self.i2 = 1
                 self.i3 = 1
-                self.daa = 0.0
 
-                self.profile_area.setText("")
+        elif self.full_form==4:
+            if change_values:
+                self.wave=1.540562
+                self.code = "Germanium"
+                self.i1 = 2
+                self.i2 = 2
+                self.i3 = 0
+
+        elif self.full_form==5:
+            if change_values:
+                self.wave=1.540562
+                self.code = "Germanium"
+                self.i1 = 2
+                self.i2 = -2
+                self.i3 = 0
+
+        self.set_xway()
+        self.set_igie_f()
+
+
 
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=3)
         self.box_line.setVisible(self.xway==3)
 
+    def set_igie_s(self):
+        self.unic_combo_s.setEnabled(self.igie != 3)
+        if self.igie == 3: self.unic = 0
+
+    def set_igie_f(self):
+        self.unic_combo_f.setEnabled(self.igie != 3)
+        if self.igie == 3: self.unic = 0
 
     def initializeTabs(self):
         current_tab = self.tabs_widget.currentIndex()
@@ -503,6 +504,11 @@ class X0h(widget.OWWidget):
         elif self.df1df2 == 2: return "2"
         elif self.df1df2 == 3: return "4"
 
+    def decode_igie(self):
+        if self.igie == 0: return "6"
+        elif self.igie == 1: return "7"
+        elif self.igie == 2: return "8"
+        elif self.igie == 3: return "9"
 
     def extract_plots(self, response):
 
