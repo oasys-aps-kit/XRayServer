@@ -52,7 +52,8 @@ class ShowTextDialog(QtGui.QDialog):
         self.setWindowTitle(title)
         layout = QtGui.QVBoxLayout(self)
 
-        text_edit = QtGui.QTextEdit(text, self)
+        text_edit = QtGui.QTextEdit("", self)
+        text_edit.append(text)
         text_edit.setReadOnly(True)
 
         text_area = QtGui.QScrollArea(self)
@@ -89,6 +90,12 @@ class XRayServerPhysics:
             return 0.0
 
 class XRayServerGui:
+
+
+    @classmethod
+    def format_scientific(cls, lineedit):
+        lineedit.setText("{:.2e}".format(float(lineedit.text().replace("+", ""))))
+
 
     @classmethod
     def combobox_text(cls, widget, master, value, box=None, label=None, labelWidth=None,
