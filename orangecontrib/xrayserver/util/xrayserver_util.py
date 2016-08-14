@@ -2,6 +2,7 @@ import sys
 from orangewidget import gui
 import xraylib
 from PyQt4 import QtGui
+from PyQt4.QtWebKit import QWebView
 
 try:
     import matplotlib
@@ -44,6 +45,35 @@ class HttpManager():
     def build_xray_server_request_GET(cls, application, parameters):
         return XRAY_SERVER_URL + application + "?" + urllib.parse.urlencode(parameters)
 
+class ShowHtmlDialog(QtGui.QDialog):
+
+    def __init__(self, title, hrml_text, width=650, height=400, parent=None):
+        QtGui.QDialog.__init__(self, parent)
+        self.setModal(True)
+        self.setWindowTitle(title)
+        layout = QtGui.QVBoxLayout(self)
+
+        web_view = QWebView(self)
+        web_view.setHtml(hrml_text)
+
+        text_area = QtGui.QScrollArea(self)
+        text_area.setWidget(web_view)
+        text_area.setWidgetResizable(True)
+        text_area.setFixedHeight(height)
+        text_area.setFixedWidth(width)
+
+        bbox = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok)
+
+        bbox.accepted.connect(self.accept)
+        layout.addWidget(text_area)
+        layout.addWidget(bbox)
+
+    @classmethod
+    def show_html(cls, title, html_text, width=650, height=400, parent=None):
+        dialog = ShowHtmlDialog(title, html_text, width, height, parent)
+        dialog.show()
+
+
 class ShowTextDialog(QtGui.QDialog):
 
     def __init__(self, title, text, width=650, height=400, parent=None):
@@ -73,6 +103,7 @@ class ShowTextDialog(QtGui.QDialog):
         dialog = ShowTextDialog(title, text, width, height, parent)
         dialog.show()
 
+
 class XRayServerPhysics:
     @classmethod
     def getMaterialDensity(cls, material_formula):
@@ -90,7 +121,6 @@ class XRayServerPhysics:
             return 0.0
 
 class XRayServerGui:
-
 
     @classmethod
     def format_scientific(cls, lineedit):
@@ -126,8 +156,9 @@ class XRayServerPlot:
         if not title is None: plot_window.setGraphTitle(title)
         plot_window.setDrawModeEnabled(True, 'rectangle')
         plot_window.setZoomModeEnabled(True)
+
         if min(y) < 0:
             plot_window.setGraphYLimits(1.01*min(y), max(y)*1.01)
         else:
-            plot_window.setGraphYLimits(0, max(y)*1.01)
+            plot_window.setGraphYLimits(min(y), max(y)*1.01)
         plot_window.replot()

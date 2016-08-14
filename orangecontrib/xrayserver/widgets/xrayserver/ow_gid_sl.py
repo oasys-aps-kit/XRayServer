@@ -1,24 +1,22 @@
 __author__ = "Luca Rebuffi"
 
-import numpy
-
 from oasys.widgets import widget
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
-from PyMca5.PyMcaGui.plotting.PlotWindow import PlotWindow
 
 import urllib
 from http import server
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerPhysics, XRayServerGui, XRayServerPlot
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, ShowHtmlDialog, XRayServerGui
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
+from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 
 APPLICATION = "/cgi/GID_form.pl"
 
-class GID_SL(widget.OWWidget):
+class GID_SL(XrayServerWidget):
     name = "GID_SL"
     description = "GID_SL"
     icon = "icons/gidsl.png"
@@ -280,7 +278,7 @@ class GID_SL(widget.OWWidget):
         gui.label(box_top_0, self, "Top layer profile (optional):")
 
         button = gui.button(box_top_0, self, "?", callback=self.help_profile)
-        button.setFixedWidth(15)
+        button.setFixedWidth(25)
 
         gui.label(box_top_0, self, "(sintax)")
 
@@ -434,7 +432,6 @@ class GID_SL(widget.OWWidget):
                 self.i1 = 8
                 self.i2 = 0
                 self.i3 = 0
-                self.igie = 3
                 self.scanmin=-1.0
                 self.scanmax=1.0
                 self.nscan = 501
@@ -515,7 +512,6 @@ class GID_SL(widget.OWWidget):
 
         self.central_tabs.setCurrentPage(1)
 
-
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=3)
         self.box_line.setVisible(self.xway==3)
@@ -533,6 +529,11 @@ class GID_SL(widget.OWWidget):
     def set_igie_f(self):
         self.unic_combo_f.setEnabled(self.igie != 3)
         if self.igie == 3: self.unic = 0
+
+    def help_profile(self):
+        ShowTextDialog.show_text("Top Layer Profile Sintax",
+                                 "period=\nt= sigma= da/a= code= x= code2= x2= code3= x3= code4= x0= xh= xhdf= w0= wh=\nend period",
+                                 height=150, parent=self)
 
     def initializeTabs(self):
         current_tab = self.tabs_widget.currentIndex()
@@ -560,7 +561,7 @@ class GID_SL(widget.OWWidget):
 
         parameters = {}
 
-        parameters.update({"xway" : str(self.xway + 1)})
+        parameters.update({"xway" : self.decode_xway()})
         parameters.update({"wave" : str(self.wave)})
         parameters.update({"line" : self.line})
         parameters.update({"ipol" : str(self.ipol + 1)})
@@ -599,9 +600,6 @@ class GID_SL(widget.OWWidget):
 
         try:
             response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
-
-            self.tabs_widget.setCurrentIndex(0)
-
             data = self.extract_plots(response)
 
             self.send("GID_SL_Result", data)
@@ -612,8 +610,10 @@ class GID_SL(widget.OWWidget):
                                      server.BaseHTTPRequestHandler.responses[e.code][1], parent=self)
         except urllib.error.URLError as e:
             ShowTextDialog.show_text("Error", 'We failed to reach a server.\nReason: ' + e.reason, parent=self)
+        except XrayServerException as e:
+            ShowHtmlDialog.show_html("X-ray Server Error", e.response, width=750, height=500, parent=self)
         except Exception as e:
-            ShowTextDialog.show_text("Error", 'We failed to reach a server.\nReason: ' + str(e), parent=self)
+            ShowTextDialog.show_text("Error", 'Error Occurred.\nReason: ' + str(e), parent=self)
 
         self.setStatusMessage("")
         self.progressBarFinished()
@@ -621,6 +621,12 @@ class GID_SL(widget.OWWidget):
 
     def checkFields(self):
         pass
+
+    def decode_xway(self):
+        if self.xway == 0: return "1"
+        elif self.xway == 1: return "2"
+        elif self.xway == 2: return "4"
+        elif self.xway == 3: return "3"
 
     def decode_df1df2(self):
         if self.df1df2 == 0: return "-1"
@@ -650,91 +656,9 @@ class GID_SL(widget.OWWidget):
 
         x_1, y_1 = self.get_data_file_from_response(response)
 
-        self.plot_histo(x_1, y_1, 80, 0, "X-ray Diffraction Profile", "Choosen Scan Variable", "Diffracted Intensity")
+        self.plot_histo(x_1, y_1, 80, 0, 0, "X-ray Diffraction Profile", "Choosen Scan Variable", "Diffracted Intensity")
 
         return [x_1, y_1]
-
-
-    def get_data_file_from_response(self, response):
-        rows = response.split("\n")
-
-        job_id = None
-        data = None
-
-        for row in rows:
-            if "Job ID" in row:
-                job_id = (row.split("<b>"))[1].split("</b>")[0]
-
-            if not job_id is None:
-                if job_id+".dat" in row:
-                    print ((row.split("href=\"")[1]).split("\"")[0])
-
-                    data = HttpManager.send_xray_server_direct_request((row.split("href=\"")[1]).split("\"")[0])
-
-        if not data is None:
-            rows = data.split("\r\n")
-
-            x = []
-            y = []
-
-            for row in rows:
-                temp = row.strip().split(" ")
-
-                if len(temp) > 1:
-                    x.append(float(temp[0].strip()))
-                    y.append(float(temp[len(temp)-1].strip()))
-
-            return x, y
-        else:
-            return None, None
-
-    def plot_histo(self, x, y, progressBarValue, plot_canvas_index, title="", xtitle="", ytitle=""):
-        if self.plot_canvas[plot_canvas_index] is None:
-            self.plot_canvas[plot_canvas_index] = PlotWindow(roi=False, control=False, position=False, plugins=False)
-            self.plot_canvas[plot_canvas_index].setDefaultPlotLines(True)
-            self.plot_canvas[plot_canvas_index].setActiveCurveColor(color='darkblue')
-            self.plot_canvas[plot_canvas_index].setYAxisLogarithmic(True)
-
-            self.tabs[plot_canvas_index].layout().addWidget(self.plot_canvas[plot_canvas_index])
-
-        XRayServerPlot.plot_histo(self.plot_canvas[plot_canvas_index], x, y, title, xtitle, ytitle)
-
-        self.progressBarSet(progressBarValue)
-
-
-
-    ''' ---------------------------------------------------------------------
-        ---------------------------------------------------------------------
-        ---------------------------------------------------------------------'''
-
-    def get_lines(self):
-        return ListUtility.get_list("waves")
-
-    def help_lines(self):
-        ShowTextDialog.show_text("Help Waves", ListUtility.get_help("waves"), width=350, parent=self)
-
-    def get_crystals(self):
-        return ListUtility.get_list("crystals")
-
-    def help_crystals(self):
-        ShowTextDialog.show_text("Help Crystals", ListUtility.get_help("crystals"), parent=self)
-
-    def get_others(self):
-        return ListUtility.get_list("amorphous+atoms")
-
-    def help_others(self):
-        ShowTextDialog.show_text("Help Others", ListUtility.get_help("amorphous+atoms"), parent=self)
-
-    def help_profile(self):
-        ShowTextDialog.show_text("Top Layer Profile Sintax",
-                                 "period=\nt= sigma= da/a= code= x= code2= x2= code3= x3= code4= x0= xh= xhdf= w0= wh=\nend period",
-                                 height=150, parent=self)
-
-    def set_Rho(self):
-        if not self.chem is None:
-            if not self.chem.strip() == "":
-                self.chem = self.chem.strip()
-                self.rho = XRayServerPhysics.getMaterialDensity(self.chem)
 
 
 if __name__ == "__main__":

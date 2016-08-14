@@ -1,7 +1,6 @@
 __author__ = "Luca Rebuffi"
 
 
-from oasys.widgets import widget
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
@@ -10,15 +9,15 @@ import urllib
 from http import server
 
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerGui
-from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, ShowHtmlDialog
+from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
 from PyQt4 import QtGui
 from PyQt4.QtWebKit import QWebView
 
 APPLICATION = "/cgi/X0p_form.exe"
 
-class X0p(widget.OWWidget):
+class X0p(XrayServerWidget):
     name = "X0h Search"
     description = "X0p"
     icon = "icons/x0p.png"
@@ -215,6 +214,8 @@ class X0p(widget.OWWidget):
         except urllib.error.URLError as e:
             self.x0h_output.setHtml('We failed to reach a server.\nReason: '
                                     + e.reason)
+        except XrayServerException as e:
+            ShowHtmlDialog.show_html("X-ray Server Error", e.response, width=750, height=500, parent=self)
         except Exception as e:
             self.x0h_output.setHtml('We failed to reach a server.\nReason: '
                                     + str(e))
@@ -223,13 +224,7 @@ class X0p(widget.OWWidget):
         self.progressBarFinished()
 
     def checkFields(self):
-        if self.qb1 < 0.0 or self.qb1 > 90.0: raise Exception("Bragg Angle From must be between 0.0 and 90.0 degrees")
-        if self.qb2 < 0.0 or self.qb2 > 90.0: raise Exception("Bragg Angle To must be between 0.0 and 90.0 degrees")
-        if self.qb1 >= self.qb2: raise Exception("Bragg Angle From must be < Bragg angle To")
-        
-        if self.q1 < 0.0 or self.q1 > 180.0: raise Exception("Theta1 must be between 0.0 and 180.0 degrees")
-        if self.q2 < 0.0 or self.q2 > 180.0: raise Exception("Theta2 must be between 0.0 and 180.0 degrees")
-        if self.q1 >= self.q2: raise Exception("Theta1 must be < Theta2")
+        pass
 
     def decode_df1df2(self):
         if self.df1df2 == 0: return "-1"
@@ -241,23 +236,6 @@ class X0p(widget.OWWidget):
         if self.modesearch == 0: return "3"
         elif self.modesearch == 1: return "2"
         elif self.modesearch == 2: return "1"
-
-
-    ''' ---------------------------------------------------------------------
-        ---------------------------------------------------------------------
-        ---------------------------------------------------------------------'''
-
-    def get_lines(self):
-        return ListUtility.get_list("waves")
-
-    def help_lines(self):
-        ShowTextDialog.show_text("Help Waves", ListUtility.get_help("waves"), width=350, parent=self)
-
-    def get_crystals(self):
-        return ListUtility.get_list("crystals")
-
-    def help_crystals(self):
-        ShowTextDialog.show_text("Help Crystals", ListUtility.get_help("crystals"), parent=self)
 
 
 if __name__ == "__main__":
