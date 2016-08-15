@@ -14,10 +14,15 @@ orangecontrib/xrayserver/__init__.py
 orangecontrib/xrayserver/util/__init__.py
 orangecontrib/xrayserver/util/xrayserver_util.py
 orangecontrib/xrayserver/widgets/__init__.py
+orangecontrib/xrayserver/widgets/gui/__init__.py
+orangecontrib/xrayserver/widgets/gui/ow_xrayserver_widget.py
 orangecontrib/xrayserver/widgets/xrayserver/__init__.py
 orangecontrib/xrayserver/widgets/xrayserver/list_utility.py
+orangecontrib/xrayserver/widgets/xrayserver/ow_gid_sl.py
 orangecontrib/xrayserver/widgets/xrayserver/ow_x0h.py
+orangecontrib/xrayserver/widgets/xrayserver/ow_x0p.py
 orangecontrib/xrayserver/widgets/xrayserver/icons/gidsl.png
 orangecontrib/xrayserver/widgets/xrayserver/icons/list.png
 orangecontrib/xrayserver/widgets/xrayserver/icons/x0h.png
+orangecontrib/xrayserver/widgets/xrayserver/icons/x0p.png
 orangecontrib/xrayserver/widgets/xrayserver/icons/xrayserver.png

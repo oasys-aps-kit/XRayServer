@@ -562,7 +562,7 @@ class GID_SL(XrayServerWidget):
         self.set_igie_s()
         self.alphamax_focusOutEvent(None)
 
-        if switch_page: self.central_tabs.setCurrentPage(1)
+        if switch_page: self.central_tabs.setCurrentIndex(1)
 
 
     def set_FullForm(self, change_values=True, switch_page=True):
@@ -726,7 +726,7 @@ class GID_SL(XrayServerWidget):
         self.set_scan_type_f()
         self.alphamax_focusOutEvent(None)
 
-        if switch_page: self.central_tabs.setCurrentPage(1)
+        if switch_page: self.central_tabs.setCurrentIndex(1)
 
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=3)
