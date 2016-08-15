@@ -79,47 +79,47 @@ class GID_SL(XrayServerWidget):
         self.setFixedHeight(700)
 
         left_box_1 = oasysgui.widgetBox(self.controlArea, "GID_SL Request Form", addSpace=False, orientation="vertical",
-                                         width=400, height=650)
+                                         width=500, height=650)
 
         self.central_tabs = gui.tabWidget(left_box_1)
         tab_template = gui.createTabPage(self.central_tabs, "Template Options")
         tab_input = gui.createTabPage(self.central_tabs, "Input Options")
 
-        left_box_1_1 = oasysgui.widgetBox(tab_template, "", addSpace=False, orientation="vertical", width=370, height=640)
+        left_box_1_1 = oasysgui.widgetBox(tab_template, "", addSpace=False, orientation="vertical", width=480, height=640)
 
         gui.comboBox(left_box_1_1, self, "template_type", label="Template Type", labelWidth=100,
                      items=["Simplified (coplanar geometries only)", "Full"],
                      callback=self.set_TemplateType, sendSelectedValue=False, orientation="horizontal")
 
-        self.simplified_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=220)
+        self.simplified_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=470, height=220)
 
         gui.radioButtons(self.simplified_box, self, "simplified_form",
                          ["Symmetric Bragg diffraction from perfect crystals",
-                          "Symmetric Bragg diffraction from multilayers and\nsuperlattices",
-                          "Symmetric Bragg diffraction at Bragg angle of 90 degrees\n(\"back diffraction\")",
+                          "Symmetric Bragg diffraction from multilayers and superlattices",
+                          "Symmetric Bragg diffraction at Bragg angle of 90 degrees (\"back diffraction\")",
                           "Energy scanning of symmetric Bragg diffraction peaks"],
                          callback=self.set_SimplifiedForm)
 
-        self.full_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=380, height=220)
+        self.full_box = oasysgui.widgetBox(left_box_1_1, "", addSpace=False, orientation="horizontal", width=470, height=220)
 
         gui.radioButtons(self.full_box, self, "full_form",
                          ["Symmetric Bragg diffraction from perfect crystals",
-                          "Symmetric Bragg diffraction from multilayers and\nsuperlattices",
-                          "Coplanar extremely asymmetric diffraction of synchrotron\nradiation",
-                          "Grazing incidence (\"surface\") diffraction from perfect\ncrystals",
-                          "Grazing incidence (\"surface\") diffraction from multilayers\nin the scheme with position sensitive detector (PSD)",
-                          "Non-coplanar Bragg-Laue diffraction from crystals with a\nfew degrees surface miscut"],
+                          "Symmetric Bragg diffraction from multilayers and superlattices",
+                          "Coplanar extremely asymmetric diffraction of synchrotron radiation",
+                          "Grazing incidence (\"surface\") diffraction from perfect crystals",
+                          "Grazing incidence (\"surface\") diffraction from multilayers in the scheme\nwith position sensitive detector (PSD)",
+                          "Non-coplanar Bragg-Laue diffraction from crystals with a few degrees\nsurface miscut"],
                          callback=self.set_FullForm)
 
         # -------------------------------------------------------------
         # -------------------------------------------------------------
         # -------------------------------------------------------------
 
-        left_box_2 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
+        left_box_2 = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=470)
 
         gui.separator(left_box_2)
 
-        left_box_2_1 = oasysgui.widgetBox(left_box_2, "", addSpace=False, orientation="horizontal", width=370)
+        left_box_2_1 = oasysgui.widgetBox(left_box_2, "", addSpace=False, orientation="horizontal", width=470)
 
         gui.comboBox(left_box_2_1, self, "xway", label="X-rays specified by", labelWidth=120,
                      items=["Wavelength (Å)", "Energy (keV)", "Bragg angle (deg)", "X-ray line"],
@@ -144,9 +144,9 @@ class GID_SL(XrayServerWidget):
 
         # -------------------------------------------------------------
 
-        left_box_3 = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=370)
+        left_box_3 = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=470)
 
-        left_box_3_1 = oasysgui.widgetBox(left_box_3, "", addSpace=False, orientation="horizontal", width=370)
+        left_box_3_1 = oasysgui.widgetBox(left_box_3, "", addSpace=False, orientation="horizontal", width=470)
         XRayServerGui.combobox_text(left_box_3_1, self, "code", label="Crystal", labelWidth=40,
                                items=self.get_crystals(),
                                sendSelectedValue=True, orientation="horizontal", selectedValue=self.code)
@@ -161,7 +161,7 @@ class GID_SL(XrayServerWidget):
                             "Brennan (0.02-400 A)"],
                      sendSelectedValue=False, orientation="horizontal")
 
-        left_box_3_2 = oasysgui.widgetBox(left_box_3, "", addSpace=False, orientation="horizontal", width=370)
+        left_box_3_2 = oasysgui.widgetBox(left_box_3, "", addSpace=False, orientation="horizontal", width=470)
 
         gui.lineEdit(left_box_3_2, self, "sigma", label="Sigma", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
         gui.lineEdit(left_box_3_2, self, "w0", label="A      W0", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
@@ -169,22 +169,22 @@ class GID_SL(XrayServerWidget):
 
         # -------------------------------------------------------------
 
-        left_box_4 = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="horizontal", width=370)
+        left_box_4 = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="horizontal", width=470)
 
-        left_box_4_1 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=190)
+        left_box_4_1 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=240)
 
         gui.lineEdit(left_box_4_1, self, "i1", label="Bragg Reflection", labelWidth=97, addSpace=False, valueType=int, orientation="horizontal")
         gui.lineEdit(left_box_4_1, self, "i2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
         gui.lineEdit(left_box_4_1, self, "i3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
-        left_box_4_2 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=178)
+        left_box_4_2 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=228)
 
         gui.lineEdit(left_box_4_2, self, "daa", label="  Substrate da/a", labelWidth=95, addSpace=False, valueType=float, orientation="horizontal")
 
         # -------------------------------------------------------------
         # -------------------------------------------------------------
 
-        self.simplified_input_box = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=370)
+        self.simplified_input_box = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=470)
 
         gui.comboBox(self.simplified_input_box, self, "igie", label="Geom. by", labelWidth=60,
                      items=["angle of Bragg planes to surface ('+' for g0>gh)",
@@ -193,7 +193,7 @@ class GID_SL(XrayServerWidget):
                             "asymmetry factor beta=g0/gh"],
                      callback=self.set_igie_s, sendSelectedValue=False, orientation="horizontal")
 
-        simplified_input_box_1 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=370)
+        simplified_input_box_1 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
         gui.lineEdit(simplified_input_box_1, self, "fcentre", label="Value", labelWidth=180, addSpace=False, valueType=float, orientation="horizontal")
 
@@ -208,7 +208,7 @@ class GID_SL(XrayServerWidget):
 
         self.set_igie_s()
 
-        simplified_input_box_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=370)
+        simplified_input_box_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
         gui.lineEdit(simplified_input_box_2, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
         gui.lineEdit(simplified_input_box_2, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
@@ -225,7 +225,7 @@ class GID_SL(XrayServerWidget):
 
         gui.lineEdit(self.simplified_input_box_scan_1_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
 
-        self.simplified_input_box_scan_1_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=370)
+        self.simplified_input_box_scan_1_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
         gui.checkBox(self.simplified_input_box_scan_1_2, self, "invert", "Invert axis", labelWidth=90)
         gui.comboBox(self.simplified_input_box_scan_1_2, self, "column", label="Plot argument", labelWidth=90,
@@ -260,7 +260,97 @@ class GID_SL(XrayServerWidget):
         # -------------------------------------------------------------
         # -------------------------------------------------------------
 
-        self.full_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=370)
+        self.full_input_box = oasysgui.widgetBox(tab_input, "", addSpace=True, orientation="vertical", width=470)
+
+        gui.comboBox(self.full_input_box, self, "igie", label="Geom. by", labelWidth=60,
+                     items=["[1]. Surface orientation & incidence angle of K0",
+                            "[2]. Surface orientation & exit angle of Kh",
+                            "[3]. Surface orientation & condition of coplanar grazing incidence",
+                            "[4]. Surface orientation & condition of coplanar grazing exit",
+                            "[5]. Surface orientation & condition of symmetric Bragg case",
+                            "[6]. Condition of coplanar reflection & angle of Bragg planes to surface",
+                            "[7]. Condition of coplanar reflection & incidence angle of K0",
+                            "[8]. Condition of coplanar reflection & exit angle of Kh",
+                            "[9]. Condition of coplanar reflection & asymmetry factor beta=g0/gh"],
+                     callback=self.set_igie_f, sendSelectedValue=False, orientation="horizontal")
+
+        gui.label(self.full_input_box, self, "Parameter ([1,7]=incidence angle,[2,8]=exit angle,[6]=Bragg planes angle,")
+
+        full_input_box_1 = oasysgui.widgetBox(self.full_input_box, "", addSpace=False, orientation="horizontal", width=470)
+
+        gui.label(full_input_box_1, self, "[9]=g0/gh)   ")
+
+        self.le_fcentre = gui.lineEdit(full_input_box_1, self, "fcentre", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
+
+        self.unic_combo_f = gui.comboBox(full_input_box_1, self, "unic", label=" ", labelWidth=1,
+                                         items=[" ",
+                                              "degr.",
+                                              "min.",
+                                              "mrad.",
+                                              "sec.",
+                                              "urad"],
+                                         sendSelectedValue=False, orientation="horizontal")
+
+        self.set_igie_f()
+
+        gui.lineEdit(full_input_box_1, self, "n1", label="   Surface plane ([1-5])", addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_1, self, "n2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_1, self, "n3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+
+        full_input_box_2 = oasysgui.widgetBox(self.full_input_box, "", addSpace=False, orientation="horizontal", width=470)
+
+        gui.lineEdit(full_input_box_2, self, "m1", label=" Miscut direction", addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_2, self, "m2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_2, self, "m3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+
+        gui.lineEdit(full_input_box_2, self, "miscut", label="Miscut angle", addSpace=False, valueType=float, orientation="horizontal")
+
+        gui.comboBox(full_input_box_2, self, "unim", label=" ", labelWidth=1,
+                                         items=["degr.",
+                                              "min.",
+                                              "mrad.",
+                                              "sec.",
+                                              "urad"],
+                                         sendSelectedValue=False, orientation="horizontal")
+
+        full_input_box_3 = oasysgui.widgetBox(self.full_input_box, "", addSpace=False, orientation="horizontal", width=470)
+
+        gui.comboBox(full_input_box_3, self, "axis", label="Scan Type", labelWidth=150,
+                     items=["Surface normal (N_surface)",
+                            "[k0 x N_surface]",
+                            "Reciprocal latt.vector (h)",
+                            "[k0 x h]",
+                            "Other axis",
+                            "Takeoff spectrum (PSD)"],
+                     sendSelectedValue=False, orientation="horizontal", callback=self.set_scan_type_s)
+
+        gui.lineEdit(full_input_box_3, self, "a1", label="Indices, if other scan axis", labelWidth=150, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_3, self, "a2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        gui.lineEdit(full_input_box_3, self, "a3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+
+
+        gui.checkBox(full_input_box_3, self, "invert", "Invert axis", labelWidth=90)
+
+        full_input_box_5 = oasysgui.widgetBox(self.full_input_box, "", addSpace=False, orientation="horizontal", width=470)
+
+        gui.lineEdit(full_input_box_5, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
+        gui.lineEdit(full_input_box_5, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
+
+        gui.comboBox(full_input_box_5, self, "unis", label=" ", labelWidth=1,
+                     items=["degr.",
+                            "min.",
+                            "mrad.",
+                            "sec.",
+                            "urad"],
+                     sendSelectedValue=False, orientation="horizontal")
+
+        gui.lineEdit(full_input_box_5, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
+
+        gui.comboBox(full_input_box_5, self, "column", label="Plot argument", labelWidth=90,
+                                       items=["scan angle",
+                                              "incidence angle",
+                                              "exit angle"],
+                                       sendSelectedValue=False, orientation="horizontal")
 
         # -------------------------------------------------------------
 
@@ -271,31 +361,41 @@ class GID_SL(XrayServerWidget):
 
         # -------------------------------------------------------------
 
-        box_top = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=370)
+        box_top = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="vertical", width=470)
 
-        box_top_0 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=250)
+        box_top_0 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.label(box_top_0, self, "Top layer profile (optional):")
+        box_top_0_1 = oasysgui.widgetBox(box_top_0, "", addSpace=False, orientation="vertical", width=100)
 
-        button = gui.button(box_top_0, self, "?", callback=self.help_profile)
-        button.setFixedWidth(25)
+        gui.label(box_top_0_1, self, "Top layer profile\n(optional):")
 
-        gui.label(box_top_0, self, "(sintax)")
+        button = gui.button(box_top_0_1, self, "? (sintax)", callback=self.help_profile)
+        button.setFixedWidth(90)
+
+        box_top_0_2 = oasysgui.widgetBox(box_top_0, "", addSpace=False, orientation="horizontal", width=360)
 
         self.profile_area = QtGui.QTextEdit()
-        self.profile_area.setMaximumHeight(170)
-        self.profile_area.setMaximumWidth(370)
-        box_top.layout().addWidget(self.profile_area)
+        self.profile_area.setMaximumHeight(120)
+        self.profile_area.setMaximumWidth(360)
+        box_top_0_2.layout().addWidget(self.profile_area)
 
-        gui.label(box_top, self, "Available Codes:")
 
-        box_top_labels = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=370)
+        box_top_labels = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.label(box_top_labels, self, "Crystals")
-        gui.label(box_top_labels, self, "Non-Crystals")
-        gui.label(box_top_labels, self, "Elements")
+        box_top_labels_1 = oasysgui.widgetBox(box_top_labels, "", addSpace=False, orientation="horizontal", width=100)
 
-        box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=370)
+        gui.label(box_top_labels_1, self, "Available Codes:")
+
+        box_top_labels_2 = oasysgui.widgetBox(box_top_labels, "", addSpace=False, orientation="horizontal", width=360)
+
+        gui.label(box_top_labels_2, self, "Crystals")
+        gui.label(box_top_labels_2, self, "Non-Crystals")
+        gui.label(box_top_labels_2, self, "Elements")
+
+        box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=470)
+
+        oasysgui.widgetBox(box_top_1, "", addSpace=False, orientation="horizontal", width=100)
+        box_top_1_2 = oasysgui.widgetBox(box_top_1, "", addSpace=False, orientation="horizontal", width=360)
 
         crystals_area = QtGui.QTextEdit()
         crystals_area.setMaximumHeight(100)
@@ -315,9 +415,9 @@ class GID_SL(XrayServerWidget):
         elements_area.setText("\n".join(ListUtility.get_list("atoms")))
         elements_area.setReadOnly(True)
 
-        box_top_1.layout().addWidget(crystals_area)
-        box_top_1.layout().addWidget(non_crystals_area)
-        box_top_1.layout().addWidget(elements_area)
+        box_top_1_2.layout().addWidget(crystals_area)
+        box_top_1_2.layout().addWidget(non_crystals_area)
+        box_top_1_2.layout().addWidget(elements_area)
 
         # -----------------------------------------------------------
 
@@ -354,15 +454,15 @@ class GID_SL(XrayServerWidget):
             self.full_box.setVisible(False)
             self.simplified_input_box.setVisible(True)
             self.full_input_box.setVisible(False)
-            self.set_SimplifiedForm(change_values)
+            self.set_SimplifiedForm(change_values, False)
         else:
             self.simplified_box.setVisible(False)
             self.full_box.setVisible(True)
             self.simplified_input_box.setVisible(False)
             self.full_input_box.setVisible(True)
-            self.set_FullForm(change_values)
+            self.set_FullForm(change_values, False)
 
-    def set_SimplifiedForm(self, change_values=True):
+    def set_SimplifiedForm(self, change_values=True, switch_page=True):
 
         self.simplified_input_box_scan_1_1.setVisible(self.simplified_form != 3)
         self.simplified_input_box_scan_1_2.setVisible(self.simplified_form != 3)
@@ -440,13 +540,12 @@ class GID_SL(XrayServerWidget):
 
         self.set_xway()
         self.set_igie_s()
-
         self.alphamax_focusOutEvent(None)
 
-        self.central_tabs.setCurrentPage(1)
+        if switch_page: self.central_tabs.setCurrentPage(1)
 
 
-    def set_FullForm(self, change_values=True):
+    def set_FullForm(self, change_values=True, switch_page=True):
         if change_values:
             self.xway=0
             self.ipol=0
@@ -455,6 +554,16 @@ class GID_SL(XrayServerWidget):
             self.w0 = 1.0
             self.wh = 1.0
             self.daa = 0.0
+            self.fcentre = 0.0
+            self.miscut = 0.0
+            self.unim = 0
+            self.a1 = 0
+            self.a2 = 0
+            self.a3 = 0
+            self.nscan = 401
+            self.invert = 0
+            self.alphamax = 1e8
+
             self.profile_area.setText("")
 
         if self.full_form==0:
@@ -464,6 +573,19 @@ class GID_SL(XrayServerWidget):
                 self.i1 = 1
                 self.i2 = 1
                 self.i3 = 1
+                self.igie = 4
+                self.unic = 0
+                self.n1 = 1
+                self.n2 = 1
+                self.n3 = 1
+                self.m1 = 1
+                self.m2 = -1
+                self.m3 = 0
+                self.axis = 3
+                self.scanmin = -60.0
+                self.scanmax = 60.0
+                self.unis = 3
+                self.column = 0
 
         elif self.full_form==1:
             if change_values:
@@ -472,6 +594,19 @@ class GID_SL(XrayServerWidget):
                 self.i1 = 4
                 self.i2 = 0
                 self.i3 = 0
+                self.igie = 4
+                self.unic = 0
+                self.n1 = 1
+                self.n2 = 0
+                self.n3 = 0
+                self.m1 = 0
+                self.m2 = 1
+                self.m3 = 1
+                self.axis = 3
+                self.scanmin = -2000.0
+                self.scanmax = 2000.0
+                self.unis = 3
+                self.column = 1
                 self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
 
         elif self.full_form==2:
@@ -479,17 +614,45 @@ class GID_SL(XrayServerWidget):
                 self.xway=1
                 self.wave=8.3
                 self.code = "Germanium"
-                self.i1 = 1
+                self.i1 = 3
                 self.i2 = 1
                 self.i3 = 1
+                self.igie = 2
+                self.unic = 0
+                self.n1 = 1
+                self.n2 = 0
+                self.n3 = 0
+                self.m1 = 0
+                self.m2 = 1
+                self.m3 = 1
+                self.axis = 3
+                self.scanmin = -1.0
+                self.scanmax = 1.0
+                self.unis = 0
+                self.column = 1
 
         elif self.full_form==3:
             if change_values:
                 self.wave=1.540562
                 self.code = "Germanium"
-                self.i1 = 1
-                self.i2 = 1
-                self.i3 = 1
+                self.i1 = 2
+                self.i2 = 2
+                self.i3 = 0
+                self.igie = 0
+                self.fcentre = 0.3
+                self.unic = 1
+                self.n1 = 0
+                self.n2 = 0
+                self.n3 = 1
+                self.m1 = 1
+                self.m2 = -1
+                self.m3 = 0
+                self.axis = 0
+                self.scanmin = -10.0
+                self.scanmax = 40.0
+                self.unis = 3
+                self.nscan = 501
+                self.column = 0
 
         elif self.full_form==4:
             if change_values:
@@ -498,6 +661,22 @@ class GID_SL(XrayServerWidget):
                 self.i1 = 2
                 self.i2 = 2
                 self.i3 = 0
+                self.igie = 0
+                self.fcentre = 0.4
+                self.unic = 1
+                self.n1 = 0
+                self.n2 = 0
+                self.n3 = 1
+                self.m1 = 1
+                self.m2 = -1
+                self.m3 = 0
+                self.axis = 5
+                self.scanmin = 0.005
+                self.scanmax = 3.0
+                self.unis = 0
+                self.nscan = 600
+                self.column = 2
+                self.profile_area.setText("period=20\nt=100 code=GaAs sigma=2\nt=70 code=AlAs sigma=2 da/a=a\nend period")
 
         elif self.full_form==5:
             if change_values:
@@ -506,11 +685,27 @@ class GID_SL(XrayServerWidget):
                 self.i1 = 2
                 self.i2 = -2
                 self.i3 = 0
+                self.igie = 4
+                self.unic = 0
+                self.n1 = 1
+                self.n2 = 1
+                self.n3 = 1
+                self.m1 = 1
+                self.m2 = -1
+                self.m3 = 0
+                self.miscut = -4.0
+                self.axis = 0
+                self.scanmin = -104.9
+                self.scanmax = 150.0
+                self.unis = 3
+                self.nscan = 501
+                self.column = 0
 
         self.set_xway()
         self.set_igie_f()
+        self.alphamax_focusOutEvent(None)
 
-        self.central_tabs.setCurrentPage(1)
+        if switch_page: self.central_tabs.setCurrentPage(1)
 
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=3)
@@ -527,8 +722,13 @@ class GID_SL(XrayServerWidget):
         else: self.unis = 3
 
     def set_igie_f(self):
-        self.unic_combo_f.setEnabled(self.igie != 3)
-        if self.igie == 3: self.unic = 0
+        if self.igie in [0, 1, 5, 6, 7]:
+            self.unic_combo_f.setEnabled(True)
+            self.le_fcentre.setEnabled(True)
+        else:
+            self.unic_combo_f.setEnabled(False)
+            self.le_fcentre.setEnabled(False)
+            self.fcentre = 0.0
 
     def help_profile(self):
         ShowTextDialog.show_text("Top Layer Profile Sintax",
@@ -547,7 +747,7 @@ class GID_SL(XrayServerWidget):
 
         for tab in self.tabs:
             tab.setFixedHeight(650)
-            tab.setFixedWidth(750)
+            tab.setFixedWidth(650)
 
         self.plot_canvas = [None]
 
@@ -599,7 +799,12 @@ class GID_SL(XrayServerWidget):
         parameters.update({"profile" : self.profile})
 
         try:
+            self.progressBarSet(10)
+
             response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+
+            self.progressBarSet(50)
+
             data = self.extract_plots(response)
 
             self.send("GID_SL_Result", data)
@@ -635,10 +840,13 @@ class GID_SL(XrayServerWidget):
         elif self.df1df2 == 3: return "4"
 
     def decode_igie(self):
-        if self.igie == 0: return "6"
-        elif self.igie == 1: return "7"
-        elif self.igie == 2: return "8"
-        elif self.igie == 3: return "9"
+        if self.template_type == 0:
+            if self.igie == 0: return "6"
+            elif self.igie == 1: return "7"
+            elif self.igie == 2: return "8"
+            elif self.igie == 3: return "9"
+        else:
+            return str(self.igie + 1)
 
     def decode_column(self):
         if self.column == 0: return "A"
@@ -646,9 +854,12 @@ class GID_SL(XrayServerWidget):
         elif self.column == 2: return "E"
 
     def decode_axis(self):
-        if self.axis == 0: return "4"
-        elif self.axis == 1: return "7"
-        elif self.axis == 2: return "8"
+        if self.template_type == 0:
+            if self.axis == 0: return "4"
+            elif self.axis == 1: return "7"
+            elif self.axis == 2: return "8"
+        else:
+            return str(self.axis + 1)
 
     def extract_plots(self, response):
 
@@ -656,7 +867,7 @@ class GID_SL(XrayServerWidget):
 
         x_1, y_1 = self.get_data_file_from_response(response)
 
-        self.plot_histo(x_1, y_1, 80, 0, 0, "X-ray Diffraction Profile", "Choosen Scan Variable", "Diffracted Intensity")
+        self.plot_histo(x_1, y_1, 90, 0, 0, "X-ray Diffraction Profile", "Choosen Scan Variable", "Diffracted Intensity")
 
         return [x_1, y_1]
 

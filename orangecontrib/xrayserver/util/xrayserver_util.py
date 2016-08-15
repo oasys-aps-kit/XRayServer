@@ -131,7 +131,7 @@ class XRayServerGui:
     def combobox_text(cls, widget, master, value, box=None, label=None, labelWidth=None,
              orientation='vertical', items=(), callback=None,
              sendSelectedValue=False, valueType=str,
-             control2attributeDict=None, emptyString=None, editable=False, selectedValue = None,
+             control2attributeDict=None, emptyString=None, editable=False, selectedValue=None,
              **misc):
 
         combo = gui.comboBox(widget, master, value, box=box, label=label, labelWidth=labelWidth, orientation=orientation,

@@ -70,13 +70,11 @@ class XrayServerWidget(widget.OWWidget):
             y = []
 
             for row in rows:
-                temp = row.strip().split(" ")
+                values_string = row.strip().split(" ")
 
-                if len(temp) > 1:
-                    x.append(float(temp[0].strip()))
-                    y.append(float(temp[len(temp)-1].strip()))
-
-            if numpy.sum(y) == 0: raise Exception("No data to plot: all Y column values=0")
+                if len(values_string) > 1:
+                    x.append(float(values_string[0].strip()))
+                    y.append(float(values_string[len(values_string)-1].strip()))
 
             return x, y
         else:
@@ -92,6 +90,9 @@ class XrayServerWidget(widget.OWWidget):
 
 
     def plot_histo(self, x, y, progressBarValue, tabs_canvas_index, plot_canvas_index, title="", xtitle="", ytitle=""):
+
+        if numpy.sum(y) == 0: raise Exception(title + ": no data to plot (all Y column values==0)")
+
         if self.plot_canvas[plot_canvas_index] is None:
             self.plot_canvas[plot_canvas_index] = PlotWindow(roi=False, control=False, position=False, plugins=False)
             self.plot_canvas[plot_canvas_index].setDefaultPlotLines(True)
@@ -116,3 +117,5 @@ class XrayServerException(Exception):
     @classmethod
     def clear_response(cls, response):
         return response.split("<p><b>Download ZIPped results:")[0] + "\n</body></html>"
+
+
