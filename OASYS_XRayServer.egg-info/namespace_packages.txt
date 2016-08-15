@@ -1,3 +1,0 @@
-orangecontrib
-orangecontrib.xrayserver
-orangecontrib.xrayserver.widgets
