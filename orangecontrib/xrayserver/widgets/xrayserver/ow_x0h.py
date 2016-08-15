@@ -3,6 +3,7 @@ __author__ = "Luca Rebuffi"
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
+from oasys.widgets.exchange import DataExchangeObject
 
 import urllib
 from http import server
@@ -27,10 +28,10 @@ class X0h(XrayServerWidget):
 
     want_main_area = 1
 
-    outputs = [{"name": "X0h_Result",
-                "type": object,
-                "doc": "X0h",
-                "id": "x0h_result"}, ]
+    outputs = [{"name": "xrayserver_data",
+                "type": DataExchangeObject,
+                "doc": "xrayserver_data",
+                "id": "xrayserver_data"}, ]
 
 
     xway = Setting(2)
@@ -213,9 +214,17 @@ class X0h(XrayServerWidget):
             self.tabs_widget.setCurrentIndex(0)
             self.x0h_output.setHtml(response)
 
-            data = self.extract_plots(response)
+            data0, data1, data2 = self.extract_plots(response)
 
-            self.send("X0h_Result", data)
+            exchange_data = DataExchangeObject("XRAYSERVER", "X0H")
+            exchange_data.add_content("reflectivity", data0)
+            exchange_data.add_content("reflectivity_um", "degrees")
+            exchange_data.add_content("x-ray_diffraction_profile_sigma", data1)
+            exchange_data.add_content("x-ray_diffraction_profile_sigma_um", "arcsec")
+            exchange_data.add_content("x-ray_diffraction_profile_pi", data2)
+            exchange_data.add_content("x-ray_diffraction_profile_pi_um", "arcsec")
+
+            self.send("xrayserver_data", exchange_data)
 
         except urllib.error.HTTPError as e:
             self.x0h_output.setHtml('The server couldn\'t fulfill the request.\nError Code: '
@@ -313,7 +322,7 @@ class X0h(XrayServerWidget):
         if not form_2 is None:
             x_2, y_2 = self.get_plots_from_form("/cgi/gid_form.pl", form_2)
 
-            self.plot_histo(x_2, y_2, 60, 2, 1, "Darwin Curve ($\sigma$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
+            self.plot_histo(x_2, y_2, 60, 2, 1, "Darwin Curve ($\sigma$ Pol.)", "Scan Angle [arcsec]", "Diffracted Intensity")
             self.tabs_widget.setCurrentIndex(2)
         else:
             x_2 = None
@@ -322,7 +331,7 @@ class X0h(XrayServerWidget):
         if not form_3 is None:
             x_3, y_3 = self.get_plots_from_form("/cgi/gid_form.pl", form_3)
 
-            self.plot_histo(x_3, y_3, 80, 3, 2, "Darwin Curve ($\pi$ Pol.)", "Scan Angle (arcsec)", "Diffracted Intensity")
+            self.plot_histo(x_3, y_3, 80, 3, 2, "Darwin Curve ($\pi$ Pol.)", "Scan Angle [arcsec]", "Diffracted Intensity")
             self.tabs_widget.setCurrentIndex(3)
         else:
             x_3 = None
