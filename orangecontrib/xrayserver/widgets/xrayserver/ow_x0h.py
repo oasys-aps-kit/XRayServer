@@ -218,11 +218,11 @@ class X0h(XrayServerWidget):
 
             exchange_data = DataExchangeObject("XRAYSERVER", "X0H")
             exchange_data.add_content("reflectivity", data0)
-            exchange_data.add_content("reflectivity_um", "degrees")
+            exchange_data.add_content("reflectivity_units_to_degrees", 1.0)
             exchange_data.add_content("x-ray_diffraction_profile_sigma", data1)
-            exchange_data.add_content("x-ray_diffraction_profile_sigma_um", "arcsec")
+            exchange_data.add_content("x-ray_diffraction_profile_sigma_units_to_degrees", 0.000277777805)
             exchange_data.add_content("x-ray_diffraction_profile_pi", data2)
-            exchange_data.add_content("x-ray_diffraction_profile_pi_um", "arcsec")
+            exchange_data.add_content("x-ray_diffraction_profile_pi_units_to_degrees", 0.000277777805)
 
             self.send("xrayserver_data", exchange_data)
 

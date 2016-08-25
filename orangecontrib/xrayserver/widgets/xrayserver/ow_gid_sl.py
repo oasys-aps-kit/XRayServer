@@ -1,5 +1,6 @@
 __author__ = "Luca Rebuffi"
 
+import numpy
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
@@ -840,7 +841,7 @@ class GID_SL(XrayServerWidget):
 
             exchange_data = DataExchangeObject("XRAYSERVER", "GID_SL")
             exchange_data.add_content("x-ray_diffraction_profile", data)
-            exchange_data.add_content("x-ray_diffraction_profile_um", self.decode_um())
+            exchange_data.add_content("x-ray_diffraction_profile_units_to_degrees", self.get_units_to_degrees())
 
             self.send("xrayserver_data", exchange_data)
 
@@ -903,6 +904,20 @@ class GID_SL(XrayServerWidget):
         elif self.unis == 3: return "arcsec"
         elif self.unis == 4: return "urad"
         elif self.unis == 5: return "eV"
+
+    def get_units_to_degrees(self):
+        if self.unis == 0: # degrees
+            return 1.0
+        elif self.unis == 1: #arcmin
+            return 0.0166667
+        elif self.unis == 2: #mrad
+            return 57.2957795e-3
+        elif self.unis == 3: # ARCSEC
+            return 0.000277777805
+        elif self.unis == 4: #urad
+            return 57.2957795e-6
+        else:
+            return numpy.nan
 
     def extract_plots(self, response):
 
