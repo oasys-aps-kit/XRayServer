@@ -36,10 +36,13 @@ class HttpManager():
         return resp.read().decode('ascii')
 
     @classmethod
-    def send_xray_server_direct_request(cls, url):
+    def send_xray_server_direct_request(cls, url, decode=True):
         resp = urllib.request.urlopen(url=XRAY_SERVER_URL+url)
 
-        return resp.read().decode('ascii')
+        if decode:
+            return resp.read().decode('ascii')
+        else:
+            return resp.read()
 
     @classmethod
     def build_xray_server_request_GET(cls, application, parameters):

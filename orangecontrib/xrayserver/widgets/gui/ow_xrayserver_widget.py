@@ -62,6 +62,7 @@ class XrayServerWidget(widget.OWWidget):
 
                 if job_id+".dat" in row:
                     data = HttpManager.send_xray_server_direct_request((row.split("href=\"")[1]).split("\"")[0])
+                    break
 
         if not data is None:
             rows = data.split("\r\n")
