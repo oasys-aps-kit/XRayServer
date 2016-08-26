@@ -52,8 +52,7 @@ class X0h(XrayServerWidget):
     detail = Setting(1)
 
     def __init__(self):
-        self.setFixedWidth(1200)
-        self.setFixedHeight(700)
+        super().__init__()
 
         left_box_1 = oasysgui.widgetBox(self.controlArea, "X0h Request Form", addSpace=True, orientation="vertical",
                                          width=400, height=630)
