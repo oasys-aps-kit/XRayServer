@@ -1,6 +1,8 @@
 import numpy
 
+from orangewidget.widget import OWAction
 from oasys.widgets import widget
+
 from PyMca5.PyMcaGui.plotting.PlotWindow import PlotWindow
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerPlot
@@ -9,6 +11,16 @@ from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 
 class XrayServerWidget(widget.OWWidget):
     plot_canvas = []
+
+    def __init__(self):
+        super().__init__()
+
+        self.runaction = OWAction("Submit Request", self)
+        self.runaction.triggered.connect(self.submit)
+        self.addAction(self.runaction)
+
+        self.setFixedWidth(1200)
+        self.setFixedHeight(700)
 
     def get_lines(self):
         return ListUtility.get_list("waves")

@@ -76,8 +76,7 @@ class GID_SL(XrayServerWidget):
     profile = Setting("")
 
     def __init__(self):
-        self.setFixedWidth(1200)
-        self.setFixedHeight(700)
+        super().__init__()
 
         left_box_1 = oasysgui.widgetBox(self.controlArea, "GID_SL Request Form", addSpace=False, orientation="vertical",
                                          width=500, height=680)
