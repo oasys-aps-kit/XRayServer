@@ -457,6 +457,8 @@ class GID_SL(XrayServerWidget):
         self.le_alphamax.focusOutEvent = self.alphamax_focusOutEvent
         self.alphamax_focusOutEvent(None)
 
+        gui.rubber(self.mainArea)
+
     def set_profile(self):
         self.profile = self.profile_area.toPlainText()
 

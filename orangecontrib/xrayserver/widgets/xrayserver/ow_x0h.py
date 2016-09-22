@@ -144,6 +144,9 @@ class X0h(XrayServerWidget):
         self.x0h_output.setFixedHeight(640)
         self.x0h_output.setFixedWidth(740)
 
+    def getLeftPartWidth(self):
+        return 415
+
     def set_xway(self):
         self.box_wave.setVisible(self.xway!=2)
         self.box_line.setVisible(self.xway==2)

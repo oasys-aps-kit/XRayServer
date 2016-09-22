@@ -222,6 +222,9 @@ class X0p(XrayServerWidget):
         self.setStatusMessage("")
         self.progressBarFinished()
 
+    def getLeftPartWidth(self):
+        return 415
+
     def checkFields(self):
         pass
 

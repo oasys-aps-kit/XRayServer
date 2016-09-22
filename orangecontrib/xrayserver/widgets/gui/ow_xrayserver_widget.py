@@ -3,14 +3,18 @@ import numpy
 from orangewidget.widget import OWAction
 from oasys.widgets import widget
 
+from PyQt4.QtGui import QApplication, QSizePolicy
+from PyQt4.QtCore import QRect
 from PyMca5.PyMcaGui.plotting.PlotWindow import PlotWindow
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerPlot
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 
-
 class XrayServerWidget(widget.OWWidget):
     plot_canvas = []
+
+    MAX_WIDTH = 1200
+    MAX_HEIGHT = 700
 
     def __init__(self):
         super().__init__()
@@ -19,8 +23,22 @@ class XrayServerWidget(widget.OWWidget):
         self.runaction.triggered.connect(self.submit)
         self.addAction(self.runaction)
 
-        self.setFixedWidth(1200)
-        self.setFixedHeight(700)
+        geom = QApplication.desktop().availableGeometry()
+        self.setGeometry(QRect(round(geom.width()*0.05),
+                               round(geom.height()*0.05),
+                               round(min(geom.width()*0.98, self.MAX_WIDTH)),
+                               round(min(geom.height()*0.95, self.MAX_HEIGHT))))
+
+        self.setMaximumHeight(self.geometry().height())
+        self.setMaximumWidth(self.geometry().width())
+
+        self.leftWidgetPart.setSizePolicy(QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding))
+        self.leftWidgetPart.setMaximumWidth(self.getLeftPartWidth())
+        self.leftWidgetPart.updateGeometry()
+
+
+    def getLeftPartWidth(self):
+        return 515
 
     def get_lines(self):
         return ListUtility.get_list("waves")
