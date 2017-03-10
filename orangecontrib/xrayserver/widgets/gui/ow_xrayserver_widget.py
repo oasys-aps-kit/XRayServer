@@ -5,8 +5,8 @@ from oasys.widgets import widget
 
 from PyQt4.QtGui import QApplication, QSizePolicy
 from PyQt4.QtCore import QRect
-from PyMca5.PyMcaGui.plotting.PlotWindow import PlotWindow
 
+from oasys.widgets.gui import OasysPlotWindow
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerPlot
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 
@@ -125,7 +125,7 @@ class XrayServerWidget(widget.OWWidget):
         if numpy.sum(y) == 0: raise Exception(title + ": no data to plot (all Y column values==0)")
 
         if self.plot_canvas[plot_canvas_index] is None:
-            self.plot_canvas[plot_canvas_index] = PlotWindow(roi=False, control=False, position=True, plugins=False)
+            self.plot_canvas[plot_canvas_index] = OasysPlotWindow(roi=False, control=False, position=True)
             self.plot_canvas[plot_canvas_index].setDefaultPlotLines(True)
             self.plot_canvas[plot_canvas_index].setActiveCurveColor(color='darkblue')
             self.plot_canvas[plot_canvas_index].setYAxisLogarithmic(True)

@@ -5,7 +5,7 @@ import os
 from setuptools import find_packages, setup
 
 NAME = 'OASYS-XRayServer'
-VERSION = '1.0.9'
+VERSION = '1.0.10'
 ISRELEASED = True
 
 DESCRIPTION = 'X-Ray Server: Sergey Stepanov\'s X-Ray Server on OASYS'
@@ -20,7 +20,7 @@ LICENSE = 'GPLv3'
 KEYWORDS = (
     'X-ray optics',
     'simulator',
-    'oasys',
+    'oasys1',
 )
 
 CLASSIFIERS = (
@@ -37,13 +37,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'setuptools',
-    'numpy',
-    'scipy',
-    'matplotlib==1.4.3',
-    'srxraylib>=0.0.9',
-    'orange-widget-core>=0.0.2',
-    'oasys>=0.1.19',
+    'oasys>=1.0.0',
 )
 
 PACKAGES = find_packages(exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'))
