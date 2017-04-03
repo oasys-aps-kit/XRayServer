@@ -7,7 +7,9 @@ from PyQt4.QtGui import QApplication, QSizePolicy
 from PyQt4.QtCore import QRect
 
 from oasys.widgets.gui import OasysPlotWindow
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, ShowTextDialog, XRayServerPlot
+from oasys.util.oasys_util import ShowTextDialog, ShowHtmlDialog
+
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerPlot
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 
 class XrayServerWidget(widget.OWWidget):

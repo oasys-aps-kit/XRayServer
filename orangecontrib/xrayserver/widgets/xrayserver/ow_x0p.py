@@ -4,12 +4,13 @@ __author__ = "Luca Rebuffi"
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
+from oasys.util.oasys_util import ShowHtmlDialog
 
 import urllib
 from http import server
 
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, ShowHtmlDialog
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
 from PyQt4 import QtGui
