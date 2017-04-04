@@ -4,7 +4,7 @@ import os
 
 from setuptools import find_packages, setup
 
-NAME = 'OASYS-XRayServer'
+NAME = 'OASYS1-XRayServer'
 VERSION = '1.0.10'
 ISRELEASED = True
 
@@ -37,7 +37,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys>=1.0.0',
+    'oasys1>=1.0.0',
 )
 
 PACKAGES = find_packages(exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'))
