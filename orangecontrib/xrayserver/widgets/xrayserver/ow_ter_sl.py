@@ -2,8 +2,10 @@ __author__ = "Luca Rebuffi"
 
 import numpy
 
-from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import QImage, QLabel, QPixmap, QWidget, QPainter, QPalette, QFont, QColor
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QImage,QPixmap, QPainter, QPalette, QFont, QColor
+from PyQt5.QtWidgets import QLabel, QWidget
+from PyQt5 import QtGui, QtWidgets
 
 import orangecanvas.resources as resources
 from orangewidget import gui
@@ -19,7 +21,7 @@ from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServe
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-from PyQt4 import QtGui
+
 
 APPLICATION = "/cgi/TER_form.pl"
 
@@ -254,10 +256,10 @@ class TER_SL(XrayServerWidget):
 
         box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=470)
 
-        self.profile_area = QtGui.QTextEdit()
+        self.profile_area = QtWidgets.QTextEdit()
         self.profile_area.setMaximumHeight(240)
         self.profile_area.setMaximumWidth(335)
-        self.profile_area.setLineWrapMode(QtGui.QTextEdit.NoWrap)
+        self.profile_area.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
         box_top_1.layout().addWidget(self.profile_area)
         
@@ -267,7 +269,7 @@ class TER_SL(XrayServerWidget):
 
         gui.label(box_top_labels, self, "Available Codes:")
 
-        crystals_area = QtGui.QTextEdit()
+        crystals_area = QtWidgets.QTextEdit()
         crystals_area.setMaximumHeight(295)
         crystals_area.setMaximumWidth(130)
         crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
@@ -659,7 +661,7 @@ class VerticalLabel(QLabel):
 
 if __name__ == "__main__":
     import sys
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     w = TER_SL()
     w.show()
     app.exec()

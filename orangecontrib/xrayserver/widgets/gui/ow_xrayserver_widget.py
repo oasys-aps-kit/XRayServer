@@ -3,8 +3,8 @@ import numpy
 from orangewidget.widget import OWAction
 from oasys.widgets import widget
 
-from PyQt4.QtGui import QApplication, QSizePolicy
-from PyQt4.QtCore import QRect
+from PyQt5.QtWidgets import QApplication, QSizePolicy
+from PyQt5.QtCore import QRect
 
 from silx.gui.plot.PlotWindow import PlotWindow
 from oasys.util.oasys_util import ShowTextDialog, ShowHtmlDialog

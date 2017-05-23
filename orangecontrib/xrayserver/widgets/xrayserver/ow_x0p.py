@@ -13,8 +13,8 @@ from http import server
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-from PyQt4 import QtGui
-from PyQt4.QtWebKit import QWebView
+from PyQt5 import QtGui
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 APPLICATION = "/cgi/X0p_form.exe"
 
@@ -160,7 +160,7 @@ class X0p(XrayServerWidget):
         self.tabs_widget = gui.tabWidget(self.mainArea)
         self.tab_output = gui.createTabPage(self.tabs_widget, "X-ray Server Ouput")
 
-        self.x0h_output = QWebView(self.tab_output)
+        self.x0h_output = QWebEngineView(self.tab_output)
 
         self.tab_output.layout().addWidget(self.x0h_output)
 

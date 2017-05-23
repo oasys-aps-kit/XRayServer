@@ -14,7 +14,7 @@ from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServe
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-from PyQt4 import QtGui
+from PyQt5 import QtGui, QtWidgets
 
 APPLICATION = "/cgi/GID_form.pl"
 
@@ -395,7 +395,7 @@ class GID_SL(XrayServerWidget):
 
         box_top_0_2 = oasysgui.widgetBox(box_top_0, "", addSpace=False, orientation="horizontal", width=360)
 
-        self.profile_area = QtGui.QTextEdit()
+        self.profile_area = QtWidgets.QTextEdit()
         self.profile_area.setMaximumHeight(110)
         self.profile_area.setMaximumWidth(360)
         box_top_0_2.layout().addWidget(self.profile_area)
@@ -418,19 +418,19 @@ class GID_SL(XrayServerWidget):
         oasysgui.widgetBox(box_top_1, "", addSpace=False, orientation="horizontal", width=100)
         box_top_1_2 = oasysgui.widgetBox(box_top_1, "", addSpace=False, orientation="horizontal", width=360)
 
-        crystals_area = QtGui.QTextEdit()
+        crystals_area = QtWidgets.QTextEdit()
         crystals_area.setMaximumHeight(100)
         crystals_area.setMaximumWidth(120)
         crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
         crystals_area.setReadOnly(True)
 
-        non_crystals_area = QtGui.QTextEdit()
+        non_crystals_area = QtWidgets.QTextEdit()
         non_crystals_area.setMaximumHeight(100)
         non_crystals_area.setMaximumWidth(120)
         non_crystals_area.setText("\n".join(ListUtility.get_list("amorphous")))
         non_crystals_area.setReadOnly(True)
 
-        elements_area = QtGui.QTextEdit()
+        elements_area = QtWidgets.QTextEdit()
         elements_area.setMaximumHeight(100)
         elements_area.setMaximumWidth(120)
         elements_area.setText("\n".join(ListUtility.get_list("atoms")))
@@ -469,7 +469,7 @@ class GID_SL(XrayServerWidget):
         except:
             pass
 
-        if event: QtGui.QLineEdit.focusOutEvent(self.le_alphamax, event)
+        if event: QtWidgets.QLineEdit.focusOutEvent(self.le_alphamax, event)
 
     def set_TemplateType(self, change_values=True):
         if self.template_type == 0:
@@ -934,7 +934,7 @@ class GID_SL(XrayServerWidget):
 
 if __name__ == "__main__":
     import sys
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     w = GID_SL()
     w.show()
     app.exec()
