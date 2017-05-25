@@ -140,7 +140,7 @@ class X0h(XrayServerWidget):
         gui.rubber(self.controlArea)
 
         self.tabs = []
-        self.tabs_widget = oasysgui.TabWidget(self.mainArea)
+        self.tabs_widget = oasysgui.tabWidget(self.mainArea)
         self.initializeTabs()
 
         self.x0h_output = QWebView(self.tabs[0])

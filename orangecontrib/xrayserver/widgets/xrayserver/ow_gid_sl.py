@@ -82,7 +82,7 @@ class GID_SL(XrayServerWidget):
         left_box_1 = oasysgui.widgetBox(self.controlArea, "GID_SL Request Form", addSpace=False, orientation="vertical",
                                          width=500, height=680)
 
-        self.central_tabs = oasysgui.TabWidget(left_box_1)
+        self.central_tabs = oasysgui.tabWidget(left_box_1)
         tab_template = oasysgui.createTabPage(self.central_tabs, "Template Options")
         tab_input = oasysgui.createTabPage(self.central_tabs, "Input Options")
 
@@ -449,7 +449,7 @@ class GID_SL(XrayServerWidget):
         gui.rubber(self.controlArea)
 
         self.tabs = []
-        self.tabs_widget = oasysgui.TabWidget(self.mainArea)
+        self.tabs_widget = oasysgui.tabWidget(self.mainArea)
         self.initializeTabs()
 
         self.set_TemplateType(change_values=False)

@@ -118,7 +118,7 @@ class X0p(XrayServerWidget):
         gui.lineEdit(left_box_7, self, "qb1", label="From", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
         gui.lineEdit(left_box_7, self, "qb2", label="  To", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
 
-        tab_central = oasysgui.TabWidget(left_box_1)
+        tab_central = oasysgui.tabWidget(left_box_1)
         tab_1 = oasysgui.createTabPage(tab_central, "Intensity Control")
         tab_2 = oasysgui.createTabPage(tab_central, "Find only Bragg planes making certain angles to the surface")
 
@@ -161,7 +161,7 @@ class X0p(XrayServerWidget):
 
         gui.rubber(self.controlArea)
 
-        self.tabs_widget = oasysgui.TabWidget(self.mainArea)
+        self.tabs_widget = oasysgui.tabWidget(self.mainArea)
         self.tab_output = oasysgui.createTabPage(self.tabs_widget, "X-ray Server Ouput")
 
         self.x0h_output = QWebView(self.tab_output)
