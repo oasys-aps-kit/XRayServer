@@ -15,7 +15,7 @@ from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 class XrayServerWidget(widget.OWWidget):
     plot_canvas = []
 
-    MAX_WIDTH = 1200
+    MAX_WIDTH = 1400
     MAX_HEIGHT = 700
 
     def __init__(self):
