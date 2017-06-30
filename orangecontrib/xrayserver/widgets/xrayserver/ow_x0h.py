@@ -68,7 +68,7 @@ class X0h(XrayServerWidget):
 
         self.tabs[0].layout().addWidget(self.x0h_output)
 
-        self.x0h_output.setFixedHeight(600)
+        self.x0h_output.setFixedHeight(630)
         self.x0h_output.setFixedWidth(740)
 
 
@@ -168,6 +168,7 @@ class X0h(XrayServerWidget):
             self.x0h_output.setHtml('We failed to reach a server.\nReason: '
                                     + str(e))
 
+        self.tabs_widget.setCurrentIndex(0)
         self.setStatusMessage("")
         self.progressBarFinished()
 
@@ -224,6 +225,7 @@ class X0h(XrayServerWidget):
                                         + str(e))
 
                 raise e
+
 
             self.setStatusMessage("")
             self.progressBarFinished()
