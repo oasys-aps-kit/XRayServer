@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-XRayServer'
-VERSION = '1.0.17'
+VERSION = '1.0.18'
 ISRELEASED = True
 
 DESCRIPTION = 'X-Ray Server: Sergey Stepanov\'s X-Ray Server on OASYS'
@@ -59,10 +59,12 @@ ENTRY_POINTS = {
 }
 
 if __name__ == '__main__':
+    is_beta = False
+
     try:
         import PyMca5, PyQt4
 
-        raise NotImplementedError("This version of XRay-Server doesn't work with Oasys1 beta.\nPlease install OASYS1 final release: http://www.elettra.eu/oasys.html")
+        is_beta = True
     except:
         setup(
               name = NAME,
@@ -85,3 +87,5 @@ if __name__ == '__main__':
               include_package_data = True,
               zip_safe = False,
               )
+
+    if is_beta: raise NotImplementedError("This version of XRay-Server doesn't work with Oasys1 beta.\nPlease install OASYS1 final release: http://www.elettra.eu/oasys.html")
