@@ -20,7 +20,7 @@ import platform
 if platform.system() == 'Darwin':
     from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 elif platform.system() == 'Linux':
-    from PyQt5.QtWebKit import QWebView
+    from PyQt5.QtWebKitWidgets import QWebView
 
 APPLICATION = "/cgi/X0h_form.exe"
 
