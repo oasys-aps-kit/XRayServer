@@ -97,7 +97,7 @@ class XrayServerWidget(widget.OWWidget):
                     break
 
         if not data is None:
-            rows = data.split("\r\n")
+            rows = data.split("\n")
 
             x = []
             y = []
@@ -117,7 +117,7 @@ class XrayServerWidget(widget.OWWidget):
                 raise Exception("Empty data file: " + job_id + ".dat")
 
     def get_plots_from_form(self, application, form):
-        response = HttpManager.send_xray_server_request_POST(application, self.get_parameters_from_form(form))
+        response = HttpManager.send_xray_server_request_GET(application, self.get_parameters_from_form(form))
 
         return self.get_data_file_from_response(response)
 

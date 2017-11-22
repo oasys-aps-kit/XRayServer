@@ -2,7 +2,7 @@ __author__ = "Luca Rebuffi"
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager
 
-APPLICATION = "/cgi/WWW_dbli.exe"
+APPLICATION = "/cgi/www_dbli.exe"
 
 class ListUtility:
     @classmethod
@@ -14,7 +14,7 @@ class ListUtility:
         parameters.update({"namesonly" : "1"})
 
         try:
-            response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+            response = HttpManager.send_xray_server_request_GET(APPLICATION, parameters)
 
             list = response.split('\n')
             return [x.strip() for x in list[1:len(list)-1]]
@@ -30,7 +30,7 @@ class ListUtility:
         parameters.update({"x0hdb" : x0hdb})
 
         try:
-            return HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+            return HttpManager.send_xray_server_request_GET(APPLICATION, parameters)
 
         except Exception as e:
             return ""

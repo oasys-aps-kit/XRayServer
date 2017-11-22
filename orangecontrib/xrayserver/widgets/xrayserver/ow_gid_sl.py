@@ -16,7 +16,7 @@ from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServer
 
 from PyQt5 import QtGui, QtWidgets
 
-APPLICATION = "/cgi/GID_form.pl"
+APPLICATION = "/cgi/gid_form.pl"
 
 class GID_SL(XrayServerWidget):
     name = "GID_SL"
@@ -129,7 +129,7 @@ class GID_SL(XrayServerWidget):
                      callback=self.set_xway, sendSelectedValue=False, orientation="horizontal")
 
         self.box_wave = oasysgui.widgetBox(left_box_2_1, "", addSpace=False, orientation="horizontal", width=100)
-        gui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
 
         self.box_line = oasysgui.widgetBox(left_box_2_1, "", addSpace=False, orientation="horizontal", width=100)
         XRayServerGui.combobox_text(self.box_line, self, "line", label="", labelWidth=0,
@@ -166,9 +166,9 @@ class GID_SL(XrayServerWidget):
 
         left_box_3_2 = oasysgui.widgetBox(left_box_3, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.lineEdit(left_box_3_2, self, "sigma", label="Sigma", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_3_2, self, "w0", label="A      W0", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_3_2, self, "wh", label="        Wh", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_2, self, "sigma", label="Sigma", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_2, self, "w0", label="A      W0", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_2, self, "wh", label="        Wh", labelWidth=50, addSpace=False, valueType=float, orientation="horizontal")
 
         # -------------------------------------------------------------
 
@@ -176,13 +176,13 @@ class GID_SL(XrayServerWidget):
 
         left_box_4_1 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=240)
 
-        gui.lineEdit(left_box_4_1, self, "i1", label="Bragg Reflection", labelWidth=97, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4_1, self, "i2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4_1, self, "i3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1, self, "i1", label="Bragg Reflection", labelWidth=97, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1, self, "i2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1, self, "i3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         left_box_4_2 = oasysgui.widgetBox(left_box_4, "", addSpace=False, orientation="horizontal", width=228)
 
-        gui.lineEdit(left_box_4_2, self, "daa", label="  Substrate da/a", labelWidth=135, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_2, self, "daa", label="  Substrate da/a", labelWidth=135, addSpace=False, valueType=float, orientation="horizontal")
 
         # -------------------------------------------------------------
         # -------------------------------------------------------------
@@ -198,7 +198,7 @@ class GID_SL(XrayServerWidget):
 
         simplified_input_box_1 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.lineEdit(simplified_input_box_1, self, "fcentre", label="Value", labelWidth=280, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(simplified_input_box_1, self, "fcentre", label="Value", labelWidth=280, addSpace=False, valueType=float, orientation="horizontal")
 
         self.unic_combo_s = gui.comboBox(simplified_input_box_1, self, "unic", label=" ", labelWidth=1,
                                        items=[" ",
@@ -213,8 +213,8 @@ class GID_SL(XrayServerWidget):
 
         simplified_input_box_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.lineEdit(simplified_input_box_2, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(simplified_input_box_2, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(simplified_input_box_2, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(simplified_input_box_2, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
 
         self.simplified_input_box_scan_1_1 = oasysgui.widgetBox(simplified_input_box_2, "", addSpace=False, orientation="horizontal")
 
@@ -226,7 +226,7 @@ class GID_SL(XrayServerWidget):
                             "urad"],
                      sendSelectedValue=False, orientation="horizontal")
 
-        gui.lineEdit(self.simplified_input_box_scan_1_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(self.simplified_input_box_scan_1_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
 
         self.simplified_input_box_scan_1_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
@@ -248,7 +248,7 @@ class GID_SL(XrayServerWidget):
                                                 "eV"],
                                          sendSelectedValue=False, orientation="horizontal")
 
-        gui.lineEdit(self.simplified_input_box_scan_2_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(self.simplified_input_box_scan_2_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
 
         self.simplified_input_box_scan_2_2 = oasysgui.widgetBox(self.simplified_input_box, "", addSpace=False, orientation="horizontal")
 
@@ -283,7 +283,7 @@ class GID_SL(XrayServerWidget):
 
         full_input_box_1_1 = oasysgui.widgetBox(full_input_box_1, "", addSpace=False, orientation="horizontal", width=470)
 
-        self.le_fcentre = gui.lineEdit(full_input_box_1_1, self, "fcentre", label="                                   angle, [9]=g0/gh)",
+        self.le_fcentre = oasysgui.lineEdit(full_input_box_1_1, self, "fcentre", label="                                   angle, [9]=g0/gh)",
                                        labelWidth=250, addSpace=False, valueType=float, orientation="horizontal")
 
         self.unic_combo_f = gui.comboBox(full_input_box_1_1, self, "unic", label=" ", labelWidth=1,
@@ -299,21 +299,21 @@ class GID_SL(XrayServerWidget):
 
         full_input_box_1_2 = oasysgui.widgetBox(full_input_box_1, "", addSpace=False, orientation="horizontal", width=270)
 
-        gui.lineEdit(full_input_box_1_2, self, "n1", label="-- Surface plane ([1-5])", labelWidth=135, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(full_input_box_1_2, self, "n2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(full_input_box_1_2, self, "n3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_1_2, self, "n1", label="-- Surface plane ([1-5])", labelWidth=135, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_1_2, self, "n2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_1_2, self, "n3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         full_input_box_2 = oasysgui.widgetBox(self.full_input_box, "", addSpace=False, orientation="horizontal", width=470)
 
         full_input_box_2_1 = oasysgui.widgetBox(full_input_box_2, "", addSpace=False, orientation="horizontal", width=270)
 
-        gui.lineEdit(full_input_box_2_1, self, "m1", label="Miscut direction", labelWidth=135, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(full_input_box_2_1, self, "m2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(full_input_box_2_1, self, "m3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_2_1, self, "m1", label="Miscut direction", labelWidth=135, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_2_1, self, "m2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_2_1, self, "m3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         full_input_box_2_2 = oasysgui.widgetBox(full_input_box_2, "", addSpace=False, orientation="horizontal")
 
-        gui.lineEdit(full_input_box_2_2, self, "miscut", label="Miscut angle", addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_2_2, self, "miscut", label="Miscut angle", addSpace=False, valueType=float, orientation="horizontal")
 
         gui.comboBox(full_input_box_2_2, self, "unim", label=" ", labelWidth=1,
                                          items=["degr.",
@@ -340,9 +340,9 @@ class GID_SL(XrayServerWidget):
 
         full_input_box_3_2 = oasysgui.widgetBox(full_input_box_3, "", addSpace=False, orientation="horizontal", width=470)
 
-        self.le_a1 = gui.lineEdit(full_input_box_3_2, self, "a1", label="Indices, if other scan axis", labelWidth=290, addSpace=False, valueType=int, orientation="horizontal")
-        self.le_a2 = gui.lineEdit(full_input_box_3_2, self, "a2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        self.le_a3 = gui.lineEdit(full_input_box_3_2, self, "a3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        self.le_a1 = oasysgui.lineEdit(full_input_box_3_2, self, "a1", label="Indices, if other scan axis", labelWidth=290, addSpace=False, valueType=int, orientation="horizontal")
+        self.le_a2 = oasysgui.lineEdit(full_input_box_3_2, self, "a2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        self.le_a3 = oasysgui.lineEdit(full_input_box_3_2, self, "a3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         self.set_scan_type_f()
 
@@ -350,8 +350,8 @@ class GID_SL(XrayServerWidget):
 
         full_input_box_5_1 = oasysgui.widgetBox(full_input_box_5, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.lineEdit(full_input_box_5_1, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(full_input_box_5_1, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_5_1, self, "scanmin", label="Scan: From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_5_1, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
 
         gui.comboBox(full_input_box_5_1, self, "unis", label=" ", labelWidth=1,
                      items=["degr.",
@@ -361,7 +361,7 @@ class GID_SL(XrayServerWidget):
                             "urad"],
                      sendSelectedValue=False, orientation="horizontal")
 
-        gui.lineEdit(full_input_box_5_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(full_input_box_5_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
 
         full_input_box_5_2 = oasysgui.widgetBox(full_input_box_5, "", addSpace=False, orientation="horizontal", width=470)
 
@@ -375,7 +375,7 @@ class GID_SL(XrayServerWidget):
 
         box_alpha = oasysgui.widgetBox(tab_input, "", addSpace=False, orientation="horizontal", width=280)
 
-        self.le_alphamax = gui.lineEdit(box_alpha, self, "alphamax", label="Approximations: alpha_max", labelWidth=170, addSpace=False, valueType=float, orientation="horizontal")
+        self.le_alphamax = oasysgui.lineEdit(box_alpha, self, "alphamax", label="Approximations: alpha_max", labelWidth=170, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(box_alpha, self, "*|xh|")
 
         gui.separator(tab_input)
@@ -396,6 +396,7 @@ class GID_SL(XrayServerWidget):
         box_top_0_2 = oasysgui.widgetBox(box_top_0, "", addSpace=False, orientation="horizontal", width=360)
 
         self.profile_area = QtWidgets.QTextEdit()
+        self.profile_area.setStyleSheet("background-color: white;")
         self.profile_area.setMaximumHeight(110)
         self.profile_area.setMaximumWidth(360)
         box_top_0_2.layout().addWidget(self.profile_area)
@@ -419,18 +420,21 @@ class GID_SL(XrayServerWidget):
         box_top_1_2 = oasysgui.widgetBox(box_top_1, "", addSpace=False, orientation="horizontal", width=360)
 
         crystals_area = QtWidgets.QTextEdit()
+        crystals_area.setStyleSheet("background-color: white;")
         crystals_area.setMaximumHeight(100)
         crystals_area.setMaximumWidth(120)
         crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
         crystals_area.setReadOnly(True)
 
         non_crystals_area = QtWidgets.QTextEdit()
+        non_crystals_area.setStyleSheet("background-color: white;")
         non_crystals_area.setMaximumHeight(100)
         non_crystals_area.setMaximumWidth(120)
         non_crystals_area.setText("\n".join(ListUtility.get_list("amorphous")))
         non_crystals_area.setReadOnly(True)
 
         elements_area = QtWidgets.QTextEdit()
+        elements_area.setStyleSheet("background-color: white;")
         elements_area.setMaximumHeight(100)
         elements_area.setMaximumWidth(120)
         elements_area.setText("\n".join(ListUtility.get_list("atoms")))
@@ -835,7 +839,7 @@ class GID_SL(XrayServerWidget):
         try:
             self.progressBarSet(10)
 
-            response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+            response = HttpManager.send_xray_server_request_GET(APPLICATION, parameters)
 
             self.progressBarSet(50)
 

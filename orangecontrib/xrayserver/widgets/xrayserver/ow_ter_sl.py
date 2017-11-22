@@ -23,7 +23,7 @@ from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServer
 
 
 
-APPLICATION = "/cgi/TER_form.pl"
+APPLICATION = "/cgi/ter_form.pl"
 
 class TER_SL(XrayServerWidget):
     name = "TER_SL"
@@ -114,7 +114,7 @@ class TER_SL(XrayServerWidget):
                      callback=self.set_xway, sendSelectedValue=False, orientation="horizontal")
 
         self.box_wave = oasysgui.widgetBox(left_box_2_1, "", addSpace=False, orientation="horizontal", width=100)
-        gui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
 
         self.box_line = oasysgui.widgetBox(left_box_2_1, "", addSpace=False, orientation="horizontal", width=100)
         XRayServerGui.combobox_text(self.box_line, self, "line", label="", labelWidth=0,
@@ -163,26 +163,26 @@ class TER_SL(XrayServerWidget):
 
         self.left_box_3_2 = oasysgui.widgetBox(left_box_3_right, "", addSpace=False, orientation="horizontal", width=445)
 
-        gui.lineEdit(self.left_box_3_2, self, "chem", label="Chemical Formula", labelWidth=110, addSpace=False, valueType=str, orientation="horizontal", callback=self.set_rho)
-        gui.lineEdit(self.left_box_3_2, self, "rho", label=u"\u03C1" + " (g/cm3)", labelWidth=60, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.left_box_3_2, self, "chem", label="Chemical Formula", labelWidth=110, addSpace=False, valueType=str, orientation="horizontal", callback=self.set_rho)
+        oasysgui.lineEdit(self.left_box_3_2, self, "rho", label=u"\u03C1" + " (g/cm3)", labelWidth=60, addSpace=False, valueType=float, orientation="horizontal")
 
         self.left_box_3_3 = oasysgui.widgetBox(left_box_3_right, "", addSpace=False, orientation="vertical", width=445)
 
         left_box_3_3_1 = oasysgui.widgetBox(self.left_box_3_3, "", addSpace=False, orientation="horizontal", width=445)
 
-        gui.lineEdit(left_box_3_3_1, self, "x0", label="Susceptibility x0        (", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_3_1, self, "x0", label="Susceptibility x0        (", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(left_box_3_3_1, self, " )  format: x0=(Re(x0), Im(x0))", labelWidth=230 )
 
         left_box_3_3_2 = oasysgui.widgetBox(self.left_box_3_3, "", addSpace=False, orientation="horizontal", width=445)
 
-        gui.lineEdit(left_box_3_3_2, self, "w0", label="x0 correction: w0", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_3_2, self, "w0", label="x0 correction: w0", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(left_box_3_3_2, self, "  this is used as: x0 = w0 * x0", labelWidth=230)
 
         left_box_3_3_3 = oasysgui.widgetBox(self.left_box_3_3, "", addSpace=False, orientation="horizontal", width=445)
 
-        gui.lineEdit(left_box_3_3_3, self, "sigma", label="Roughness: sigma [Å]", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_3_3, self, "sigma", label="Roughness: sigma [Å]", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(left_box_3_3_3, self, "   OR   ")
-        gui.lineEdit(left_box_3_3_3, self, "tr", label="Transition layer tr [Å]", labelWidth=120, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_3_3_3, self, "tr", label="Transition layer tr [Å]", labelWidth=120, addSpace=False, valueType=float, orientation="horizontal")
 
         self.set_subway()
 
@@ -196,8 +196,8 @@ class TER_SL(XrayServerWidget):
 
         left_box_4_1_1 = oasysgui.widgetBox(left_box_4_1, "", addSpace=False, orientation="horizontal", width=470)
 
-        gui.lineEdit(left_box_4_1_1, self, "scanmin", label="     From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_4_1_1, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1_1, self, "scanmin", label="     From", labelWidth=70, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1_1, self, "scanmax", label="To", labelWidth=15, addSpace=False, valueType=float, orientation="horizontal")
 
         gui.comboBox(left_box_4_1_1, self, "unis", label=" ", labelWidth=1,
                      items=["degr.",
@@ -207,7 +207,7 @@ class TER_SL(XrayServerWidget):
                             "urad"],
                      sendSelectedValue=False, orientation="horizontal")
 
-        gui.lineEdit(left_box_4_1_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4_1_1, self, "nscan", label="Points", labelWidth=40, addSpace=False, valueType=int, orientation="horizontal")
 
         # -------------------------------------------------------------
         # -------------------------------------------------------------
@@ -224,19 +224,19 @@ class TER_SL(XrayServerWidget):
         self.standing_waves_box_2 = oasysgui.widgetBox(self.standing_waves_box, "", addSpace=False, orientation="vertical", width=470)
 
         standing_waves_box_2_1 = oasysgui.widgetBox(self.standing_waves_box_2, "", addSpace=False, orientation="horizontal", width=270)
-        gui.lineEdit(standing_waves_box_2_1, self, "swref", label="Reference interface", labelWidth=130, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(standing_waves_box_2_1, self, "swref", label="Reference interface", labelWidth=130, addSpace=False, valueType=int, orientation="horizontal")
         gui.label(standing_waves_box_2_1, self, " (0=surface)")
 
         standing_waves_box_2_2 = oasysgui.widgetBox(self.standing_waves_box_2, "", addSpace=False, orientation="horizontal", width=270)
-        gui.lineEdit(standing_waves_box_2_2, self, "swmin", label="Start offset", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(standing_waves_box_2_2, self, "swmin", label="Start offset", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(standing_waves_box_2_2, self, " [Å]", labelWidth=70)
 
         standing_waves_box_2_3 = oasysgui.widgetBox(self.standing_waves_box_2, "", addSpace=False, orientation="horizontal", width=270)
-        gui.lineEdit(standing_waves_box_2_3, self, "swmax", label="End offset", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(standing_waves_box_2_3, self, "swmax", label="End offset", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(standing_waves_box_2_3, self, " [Å]", labelWidth=70)
 
         standing_waves_box_2_4 = oasysgui.widgetBox(self.standing_waves_box_2, "", addSpace=False, orientation="horizontal", width=270)
-        gui.lineEdit(standing_waves_box_2_4, self, "swpts", label="Number of offsets", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(standing_waves_box_2_4, self, "swpts", label="Number of offsets", labelWidth=130, addSpace=False, valueType=float, orientation="horizontal")
         gui.label(standing_waves_box_2_4, self, " (max = 401)")
 
         self.set_swflag()
@@ -257,6 +257,7 @@ class TER_SL(XrayServerWidget):
         box_top_1 = oasysgui.widgetBox(box_top, "", addSpace=False, orientation="horizontal", width=470)
 
         self.profile_area = QtWidgets.QTextEdit()
+        self.profile_area.setStyleSheet("background-color: white;")
         self.profile_area.setMaximumHeight(240)
         self.profile_area.setMaximumWidth(335)
         self.profile_area.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
@@ -270,6 +271,7 @@ class TER_SL(XrayServerWidget):
         gui.label(box_top_labels, self, "Available Codes:")
 
         crystals_area = QtWidgets.QTextEdit()
+        crystals_area.setStyleSheet("background-color: white;")
         crystals_area.setMaximumHeight(295)
         crystals_area.setMaximumWidth(130)
         crystals_area.setText("\n".join(ListUtility.get_list("crystals")))
@@ -450,7 +452,7 @@ class TER_SL(XrayServerWidget):
         try:
             self.progressBarSet(10)
 
-            response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+            response = HttpManager.send_xray_server_request_GET(APPLICATION, parameters)
 
             self.progressBarSet(50)
 

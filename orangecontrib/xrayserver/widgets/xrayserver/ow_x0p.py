@@ -10,7 +10,7 @@ import urllib
 from http import server
 
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, XRAY_SERVER_URL
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
 from PyQt5 import QtGui
@@ -20,7 +20,7 @@ if platform.system() == 'Darwin':
 elif platform.system() == 'Linux':
     from PyQt5.QtWebKitWidgets import QWebView
 
-APPLICATION = "/cgi/X0p_form.exe"
+APPLICATION = "/cgi/x0p_form.exe"
 
 class X0p(XrayServerWidget):
     name = "X0h Search"
@@ -79,7 +79,7 @@ class X0p(XrayServerWidget):
 
         self.box_wave = oasysgui.widgetBox(left_box_2, "", addSpace=True, orientation="vertical", width=190)
         gui.separator(self.box_wave, height=10)
-        gui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.box_wave, self, "wave", label="", labelWidth=0, addSpace=False, valueType=float, orientation="horizontal")
 
         self.box_line = oasysgui.widgetBox(left_box_2, "", addSpace=True, orientation="horizontal", width=190, height=110)
         gui.separator(self.box_line, height=120)
@@ -105,18 +105,18 @@ class X0p(XrayServerWidget):
 
         left_box_4 = oasysgui.widgetBox(left_box_1, "Bragg Planes Range", addSpace=True, orientation="horizontal", width=380, height=60)
 
-        gui.lineEdit(left_box_4, self, "hkl11", label="From", labelWidth=50, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "hkl12", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "hkl13", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl11", label="From", labelWidth=50, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl12", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl13", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
-        gui.lineEdit(left_box_4, self, "hkl21", label="  To", labelWidth=50, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "hkl22", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_4, self, "hkl23", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl21", label="  To", labelWidth=50, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl22", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_4, self, "hkl23", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         left_box_7 = oasysgui.widgetBox(left_box_1, "Bragg Angle Range", addSpace=True, orientation="horizontal", width=380, height=60)
 
-        gui.lineEdit(left_box_7, self, "qb1", label="From", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_7, self, "qb2", label="  To", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_7, self, "qb1", label="From", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_7, self, "qb2", label="  To", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
 
         tab_central = oasysgui.tabWidget(left_box_1)
         tab_1 = oasysgui.createTabPage(tab_central, "Intensity Control")
@@ -126,7 +126,7 @@ class X0p(XrayServerWidget):
 
         gui.separator(left_box_5)
 
-        gui.lineEdit(left_box_5, self, "prcmin", label="Minimum |xh/x0| (%)", labelWidth=250, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_5, self, "prcmin", label="Minimum |xh/x0| (%)", labelWidth=250, addSpace=False, valueType=float, orientation="horizontal")
 
         left_box_5_1 = oasysgui.widgetBox(left_box_5, "Database Options for dispersion corrections df1, df2", addSpace=True, orientation="vertical", width=370, height=185)
 
@@ -141,9 +141,9 @@ class X0p(XrayServerWidget):
 
         left_box_6_1 = oasysgui.widgetBox(left_box_6, "", addSpace=False, orientation="horizontal", width=370, height=30)
 
-        gui.lineEdit(left_box_6_1, self, "base1", label="Surface Plane Indices", labelWidth=200, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_6_1, self, "base2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
-        gui.lineEdit(left_box_6_1, self, "base3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_6_1, self, "base1", label="Surface Plane Indices", labelWidth=200, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_6_1, self, "base2", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
+        oasysgui.lineEdit(left_box_6_1, self, "base3", label=" ", labelWidth=1, addSpace=False, valueType=int, orientation="horizontal")
 
         gui.radioButtons(left_box_6, self, "modesearch", ["Planes make angles from Theta1 to Theta2",
                                                       "Planes make angles from Theta1 to (Bragg_Angle - Theta2)",
@@ -153,8 +153,8 @@ class X0p(XrayServerWidget):
 
         left_box_6_2 = oasysgui.widgetBox(left_box_6, "", addSpace=True, orientation="horizontal", width=370, height=30)
 
-        gui.lineEdit(left_box_6_2, self, "q1", label="Theta1", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
-        gui.lineEdit(left_box_6_2, self, "q2", label="  Theta2", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_6_2, self, "q1", label="Theta1", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_6_2, self, "q2", label="  Theta2", labelWidth=80, addSpace=False, valueType=float, orientation="horizontal")
 
         button = gui.button(self.controlArea, self, "Find Planes!", callback=self.submit)
         button.setFixedHeight(30)
@@ -206,8 +206,13 @@ class X0p(XrayServerWidget):
         parameters.update({"q2" : str(self.q2)})
 
         try:
-            response = HttpManager.send_xray_server_request_POST(APPLICATION, parameters)
+            response = HttpManager.send_xray_server_request_GET(APPLICATION, parameters)
             response = response.split("<hr>")[0] + "\n </body></html>"
+
+            temp_1, temp_2 = response.split("style.css")
+            output = temp_1 + XRAY_SERVER_URL + "/style.css" + temp_2
+
+            response = response.split("<td><img src=\"images/x.gif\" width=31 height=32 border=0></td>")[0] + "</tr></tr></body></html>"
 
             self.x0h_output.setHtml(response)
 
