@@ -1,7 +1,5 @@
 __author__ = "Luca Rebuffi"
 
-#raise NotImplementedError()
-
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
