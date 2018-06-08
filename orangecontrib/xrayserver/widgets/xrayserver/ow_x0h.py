@@ -308,31 +308,51 @@ class X0h(XrayServerWidget):
 
 
     def extract_structure_data(self, response=""):
-
         dictionary = {}
 
-        dictionary["structure"] = response.split(sep="<tr><td>Structure :   </td><td>")[1].split("</td></tr>")[0].strip()
-        dictionary["energy"]   = float(response.split(sep="<dt>Closest absorption edge (keV) :  </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
+        try:
+            dictionary["structure"] = response.split(sep="<tr><td>Structure :   </td><td>")[1].split("</td></tr>")[0].strip()
+            dictionary["energy"]   = float(response.split(sep="<dt>Closest absorption edge (keV) :  </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
 
-        x0_string = response.split(sep="Critical angle for TER (degr., mrad) :  </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+            try:
+                x0_string = response.split(sep="Critical angle for TER (degr., mrad) :  </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
 
-        dictionary["xr0"] = float(x0_string[0].strip())
-        dictionary["xi0"] = float(x0_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xr0"] = float(x0_string[0].strip())
+                dictionary["xi0"] = float(x0_string[1].split(sep="<sub>")[0].strip())
+            except:
+                dictionary["xr0"] = 0.0
+                dictionary["xi0"] = 0.0
 
-        bragg_angle_d_spacing_string = response.split("<dt> ESinTheta=12.398/(2d) : </dt>")[1].split(sep="<dt>")
+            try:
+                bragg_angle_d_spacing_string = response.split("<dt> ESinTheta=12.398/(2d) : </dt>")[1].split(sep="<dt>")
 
-        dictionary["bragg_angle"] = float(bragg_angle_d_spacing_string[1].split(sep="</dt>")[0].strip())
-        dictionary["d_spacing"] = float(bragg_angle_d_spacing_string[2].split(sep="</dt>")[0].strip())
+                dictionary["bragg_angle"] = float(bragg_angle_d_spacing_string[1].split(sep="</dt>")[0].strip())
+                dictionary["d_spacing"] = float(bragg_angle_d_spacing_string[2].split(sep="</dt>")[0].strip())
+            except:
+                dictionary["bragg_angle"] = 0.0
+                dictionary["d_spacing"] = 0.0
 
-        xh_s_string = response.split(sep="<dt><b><i>Sigma <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+            try:
+                xh_s_string = response.split(sep="<dt><b><i>Sigma <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
 
-        dictionary["xrh_s"] = float(xh_s_string[0].strip())
-        dictionary["xih_s"] = float(xh_s_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xrh_s"] = float(xh_s_string[0].strip())
+                dictionary["xih_s"] = float(xh_s_string[1].split(sep="<sub>")[0].strip())
+            except:
+                dictionary["xrh_s"] = 0.0
+                dictionary["xih_s"] = 0.0
 
-        xh_p_string = response.split(sep="<dt><b><i>Pi <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+            try:
+                xh_p_string = response.split(sep="<dt><b><i>Pi <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
 
-        dictionary["xrh_p"] = float(xh_p_string[0].strip())
-        dictionary["xih_p"] = float(xh_p_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xrh_p"] = float(xh_p_string[0].strip())
+                dictionary["xih_p"] = float(xh_p_string[1].split(sep="<sub>")[0].strip())
+            except:
+                dictionary["xrh_p"] = 0.0
+                dictionary["xih_p"] = 0.0
+        except:
+            dictionary["structure"] = "Problems while reading structure"
+            dictionary["energy"]    = 0.0
+
 
         return dictionary
 
