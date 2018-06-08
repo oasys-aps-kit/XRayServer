@@ -12,8 +12,6 @@ from http import server
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerPhysics, XRayServerGui, XRAY_SERVER_URL
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-from PyQt5 import QtGui
-
 import platform
 if platform.system() == 'Darwin':
     from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
@@ -225,7 +223,27 @@ class X0h(XrayServerWidget):
 
             data0, data1, data2 = self.extract_plots(response)
 
+
             exchange_data = DataExchangeObject("XRAYSERVER", "X0H")
+
+            if self.coway == 0: # crystals
+
+                dictionary = self.extract_structure_data(response)
+
+                exchange_data.add_content("structure", dictionary["structure"])
+                exchange_data.add_content("h", self.i1)
+                exchange_data.add_content("k", self.i2)
+                exchange_data.add_content("l", self.i3)
+                exchange_data.add_content("d_spacing",  dictionary["d_spacing"])
+                exchange_data.add_content("energy", dictionary["energy"])
+                exchange_data.add_content("bragg_angle",  dictionary["bragg_angle"])
+                exchange_data.add_content("xr0",  dictionary["xr0"])
+                exchange_data.add_content("xi0",  dictionary["xi0"])
+                exchange_data.add_content("xrh_s",  dictionary["xrh_s"])
+                exchange_data.add_content("xih_s",  dictionary["xih_s"])
+                exchange_data.add_content("xrh_p",  dictionary["xrh_p"])
+                exchange_data.add_content("xih_p",  dictionary["xih_p"])
+
             exchange_data.add_content("reflectivity", data0)
             exchange_data.add_content("reflectivity_units_to_degrees", 1.0)
             exchange_data.add_content("x-ray_diffraction_profile_sigma", data1)
@@ -287,6 +305,37 @@ class X0h(XrayServerWidget):
         elif self.df1df2 == 2: return "2"
         elif self.df1df2 == 3: return "4"
         elif self.df1df2 == 4: return "10"
+
+
+    def extract_structure_data(self, response=""):
+
+        dictionary = {}
+
+        dictionary["structure"] = response.split(sep="<tr><td>Structure :   </td><td>")[1].split("</td></tr>")[0].strip()
+        dictionary["energy"]   = float(response.split(sep="<dt>Closest absorption edge (keV) :  </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
+
+        x0_string = response.split(sep="Critical angle for TER (degr., mrad) :  </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+
+        dictionary["xr0"] = float(x0_string[0].strip())
+        dictionary["xi0"] = float(x0_string[1].split(sep="<sub>")[0].strip())
+
+        bragg_angle_d_spacing_string = response.split("<dt> ESinTheta=12.398/(2d) : </dt>")[1].split(sep="<dt>")
+
+        dictionary["bragg_angle"] = float(bragg_angle_d_spacing_string[1].split(sep="</dt>")[0].strip())
+        dictionary["d_spacing"] = float(bragg_angle_d_spacing_string[2].split(sep="</dt>")[0].strip())
+
+        xh_s_string = response.split(sep="<dt><b><i>Sigma <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+
+        dictionary["xrh_s"] = float(xh_s_string[0].strip())
+        dictionary["xih_s"] = float(xh_s_string[1].split(sep="<sub>")[0].strip())
+
+        xh_p_string = response.split(sep="<dt><b><i>Pi <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+
+        dictionary["xrh_p"] = float(xh_p_string[0].strip())
+        dictionary["xih_p"] = float(xh_p_string[1].split(sep="<sub>")[0].strip())
+
+        return dictionary
+
 
     def extract_plots(self, response):
         form_1_begin = False
@@ -361,10 +410,11 @@ class X0h(XrayServerWidget):
 
         return [x_1, y_1], [x_2, y_2], [x_3, y_3]
 
+from PyQt5.QtWidgets import QApplication
 
 if __name__ == "__main__":
     import sys
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     w = X0h()
     w.show()
     app.exec()

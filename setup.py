@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-XRayServer'
-VERSION = '1.0.19'
+VERSION = '1.0.20'
 ISRELEASED = True
 
 DESCRIPTION = 'X-Ray Server: Sergey Stepanov\'s X-Ray Server on OASYS'
