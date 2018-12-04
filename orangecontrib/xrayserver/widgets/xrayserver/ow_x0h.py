@@ -12,11 +12,20 @@ from http import server
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerPhysics, XRayServerGui, XRAY_SERVER_URL
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
-import platform
-if platform.system() == 'Darwin':
+DISCRIMINATE=False
+
+if DISCRIMINATE:
+    import platform
+
+    if platform.system() == 'Darwin':
+        from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
+    elif platform.system() == 'Linux':
+        if "debian" in platform.platform():
+            from PyQt5.QtWebKitWidgets import QWebView
+        else:
+            from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
+else:
     from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
-elif platform.system() == 'Linux':
-    from PyQt5.QtWebKitWidgets import QWebView
 
 APPLICATION = "/cgi/x0h_form.exe"
 
