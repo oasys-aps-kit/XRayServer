@@ -14,7 +14,7 @@ except ImportError:
 
 import urllib
 
-XRAY_SERVER_URL = "http://x-server.gmca.aps.anl.gov"
+XRAY_SERVER_URL = "https://x-server.gmca.aps.anl.gov"
 
 class HttpManager():
 
