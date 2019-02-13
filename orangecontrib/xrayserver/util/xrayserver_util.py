@@ -1,6 +1,8 @@
 import sys
 from orangewidget import gui
 import xraylib
+from PyQt5 import QtWidgets
+from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
 try:
     import matplotlib
@@ -105,3 +107,31 @@ class XRayServerPlot:
         else:
             plot_window.setGraphYLimits(min(y), max(y)*1.01)
         plot_window.replot()
+
+class ShowHtmlDialog(QtWidgets.QDialog):
+
+    def __init__(self, title, html_text, width=650, height=400, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setModal(True)
+        self.setWindowTitle(title)
+        layout = QtWidgets.QVBoxLayout(self)
+
+        web_view = QWebView(self)
+        web_view.setHtml(html_text)
+
+        text_area = QtWidgets.QScrollArea(self)
+        text_area.setWidget(web_view)
+        text_area.setWidgetResizable(True)
+        text_area.setFixedHeight(height)
+        text_area.setFixedWidth(width)
+
+        bbox = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok)
+
+        bbox.accepted.connect(self.accept)
+        layout.addWidget(text_area)
+        layout.addWidget(bbox)
+
+    @classmethod
+    def show_html(cls, title, html_text, width=650, height=400, parent=None):
+        dialog = ShowHtmlDialog(title, html_text, width, height, parent)
+        dialog.show()

@@ -4,31 +4,15 @@ __author__ = "Luca Rebuffi"
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
-from oasys.util.oasys_util import ShowHtmlDialog
 
 import urllib
 from http import server
 
-
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, XRAY_SERVER_URL
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, XRAY_SERVER_URL, ShowHtmlDialog
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
 from PyQt5 import QtGui
-
-DISCRIMINATE=False
-
-if DISCRIMINATE:
-    import platform
-
-    if platform.system() == 'Darwin':
-        from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
-    elif platform.system() == 'Linux':
-        if "debian" in platform.platform():
-            from PyQt5.QtWebKitWidgets import QWebView
-        else:
-            from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
-else:
-    from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
+from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
 APPLICATION = "/cgi/x0p_form.exe"
 

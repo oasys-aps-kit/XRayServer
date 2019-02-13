@@ -5,12 +5,12 @@ from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
 from oasys.widgets.exchange import DataExchangeObject
-from oasys.util.oasys_util import ShowTextDialog, ShowHtmlDialog
+from oasys.util.oasys_util import ShowTextDialog
 
 import urllib
 from http import server
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, ShowHtmlDialog
 from orangecontrib.xrayserver.widgets.xrayserver.list_utility import ListUtility
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 

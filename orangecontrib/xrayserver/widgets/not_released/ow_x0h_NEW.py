@@ -5,21 +5,15 @@ raise NotImplementedError()
 from orangewidget import gui
 from oasys.widgets import gui as oasysgui
 from oasys.widgets.exchange import DataExchangeObject
-from oasys.util.oasys_util import ShowHtmlDialog
 
 import urllib
 from http import server
 
-from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRAY_SERVER_URL
+from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRAY_SERVER_URL, ShowHtmlDialog
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
 
 from PyQt5 import QtGui
-
-import platform
-if platform.system() == 'Darwin':
-    from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
-elif platform.system() == 'Linux':
-    from PyQt5.QtWebKitWidgets import QWebView
+from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
 class X0h(XrayServerWidget):
     name = "X0h"
