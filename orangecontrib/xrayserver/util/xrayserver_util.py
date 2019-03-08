@@ -99,8 +99,6 @@ class XRayServerPlot:
         if not xtitle is None: plot_window.setGraphXLabel(xtitle)
         if not ytitle is None: plot_window.setGraphYLabel(ytitle)
         if not title is None: plot_window.setGraphTitle(title)
-        plot_window.setDrawModeEnabled(True, 'rectangle')
-        plot_window.setInteractiveMode(mode="zoom")
 
         if min(y) < 0:
             plot_window.setGraphYLimits(1.01*min(y), max(y)*1.01)
