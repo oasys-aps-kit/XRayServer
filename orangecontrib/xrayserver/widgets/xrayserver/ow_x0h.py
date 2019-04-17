@@ -10,6 +10,7 @@ from http import server
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerPhysics, XRayServerGui, XRAY_SERVER_URL, ShowHtmlDialog
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
+from oasys.util.oasys_util import ShowTextDialog
 
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
@@ -218,56 +219,46 @@ class X0h(XrayServerWidget):
 
             data0, data1, data2 = self.extract_plots(response)
 
+            try:
+                exchange_data = DataExchangeObject("XRAYSERVER", "X0H")
 
-            exchange_data = DataExchangeObject("XRAYSERVER", "X0H")
+                if self.coway == 0: # crystals
+                    dictionary = self.extract_structure_data(response)
 
-            if self.coway == 0: # crystals
+                    exchange_data.add_content("structure", dictionary["structure"])
+                    exchange_data.add_content("h", self.i1)
+                    exchange_data.add_content("k", self.i2)
+                    exchange_data.add_content("l", self.i3)
+                    exchange_data.add_content("d_spacing",  dictionary["d_spacing"])
+                    exchange_data.add_content("energy", dictionary["energy"])
+                    exchange_data.add_content("bragg_angle",  dictionary["bragg_angle"])
+                    exchange_data.add_content("xr0",  dictionary["xr0"])
+                    exchange_data.add_content("xi0",  dictionary["xi0"])
+                    exchange_data.add_content("xrh_s",  dictionary["xrh_s"])
+                    exchange_data.add_content("xih_s",  dictionary["xih_s"])
+                    exchange_data.add_content("xrh_p",  dictionary["xrh_p"])
+                    exchange_data.add_content("xih_p",  dictionary["xih_p"])
 
-                dictionary = self.extract_structure_data(response)
+                exchange_data.add_content("reflectivity", data0)
+                exchange_data.add_content("reflectivity_units_to_degrees", 1.0)
+                exchange_data.add_content("x-ray_diffraction_profile_sigma", data1)
+                exchange_data.add_content("x-ray_diffraction_profile_sigma_units_to_degrees", 0.000277777805)
+                exchange_data.add_content("x-ray_diffraction_profile_pi", data2)
+                exchange_data.add_content("x-ray_diffraction_profile_pi_units_to_degrees", 0.000277777805)
 
-                exchange_data.add_content("structure", dictionary["structure"])
-                exchange_data.add_content("h", self.i1)
-                exchange_data.add_content("k", self.i2)
-                exchange_data.add_content("l", self.i3)
-                exchange_data.add_content("d_spacing",  dictionary["d_spacing"])
-                exchange_data.add_content("energy", dictionary["energy"])
-                exchange_data.add_content("bragg_angle",  dictionary["bragg_angle"])
-                exchange_data.add_content("xr0",  dictionary["xr0"])
-                exchange_data.add_content("xi0",  dictionary["xi0"])
-                exchange_data.add_content("xrh_s",  dictionary["xrh_s"])
-                exchange_data.add_content("xih_s",  dictionary["xih_s"])
-                exchange_data.add_content("xrh_p",  dictionary["xrh_p"])
-                exchange_data.add_content("xih_p",  dictionary["xih_p"])
-
-            exchange_data.add_content("reflectivity", data0)
-            exchange_data.add_content("reflectivity_units_to_degrees", 1.0)
-            exchange_data.add_content("x-ray_diffraction_profile_sigma", data1)
-            exchange_data.add_content("x-ray_diffraction_profile_sigma_units_to_degrees", 0.000277777805)
-            exchange_data.add_content("x-ray_diffraction_profile_pi", data2)
-            exchange_data.add_content("x-ray_diffraction_profile_pi_units_to_degrees", 0.000277777805)
-
-            self.send("xrayserver_data", exchange_data)
-
+                self.send("xrayserver_data", exchange_data)
+            except: #problems with xrayserver, no data found
+                pass
         except urllib.error.HTTPError as e:
             self.x0h_output.setHtml('The server couldn\'t fulfill the request.\nError Code: '
                                     + str(e.code) + "\n\n" +
                                     server.BaseHTTPRequestHandler.responses[e.code][1])
-            raise e
-
         except urllib.error.URLError as e:
-            self.x0h_output.setHtml('We failed to reach a server.\nReason: '
-                                    + e.reason)
-            raise e
-
+            self.x0h_output.setHtml('We failed to reach a server.\nReason: ' + e.reason)
         except XrayServerException as e:
             ShowHtmlDialog.show_html("X-ray Server Error", e.response, width=750, height=500, parent=self)
-
-            raise e
         except Exception as e:
-            self.x0h_output.setHtml('We failed to reach a server.\nReason: '
-                                    + str(e))
-
-            raise e
+            ShowTextDialog.show_text("Error", 'Error Occurred.\nReason: ' + str(e), parent=self)
 
         self.setStatusMessage("")
         self.progressBarFinished()

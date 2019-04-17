@@ -10,6 +10,7 @@ from http import server
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager, XRayServerGui, XRAY_SERVER_URL, ShowHtmlDialog
 from orangecontrib.xrayserver.widgets.gui.ow_xrayserver_widget import XrayServerWidget, XrayServerException
+from oasys.util.oasys_util import ShowTextDialog
 
 from PyQt5 import QtGui
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
@@ -220,8 +221,7 @@ class X0p(XrayServerWidget):
         except XrayServerException as e:
             ShowHtmlDialog.show_html("X-ray Server Error", e.response, width=750, height=500, parent=self)
         except Exception as e:
-            self.x0h_output.setHtml('We failed to reach a server.\nReason: '
-                                    + str(e))
+            ShowTextDialog.show_text("Error", 'Error Occurred.\nReason: ' + str(e), parent=self)
 
         self.setStatusMessage("")
         self.progressBarFinished()

@@ -473,7 +473,6 @@ class TER_SL(XrayServerWidget):
         except Exception as e:
             ShowTextDialog.show_text("Error", 'Error Occurred.\nReason: ' + str(e), parent=self)
 
-            raise e
 
         self.setStatusMessage("")
         self.progressBarFinished()
