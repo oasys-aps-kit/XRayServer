@@ -13,7 +13,9 @@ NAME = "X-Ray Server"
 
 DESCRIPTION = "Widgets for X-Ray Server "
 
-BACKGROUND = "#FDFFE6"
+#BACKGROUND = "#FDFFE6"
+
+BACKGROUND = "#CAB244"
 
 ICON = "icons/xrayserver.png"
 
