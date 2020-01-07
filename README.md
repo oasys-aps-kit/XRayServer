@@ -1,3 +1,3 @@
-XRayServer
+#XRayServer
 
-X-Ray Server under python+oasys
+This is the project for XRayServer (Sergey Stepanov's X-Ray Server) under OASYS
