@@ -40,7 +40,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys1>=1.2.29',
+    'oasys1>=1.2.40',
     'PyQtWebEngine>=5.14'
 )
 
