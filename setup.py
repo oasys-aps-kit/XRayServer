@@ -8,16 +8,16 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-XRayServer'
-VERSION = '1.0.33'
+VERSION = '1.0.34'
 ISRELEASED = True
 
 DESCRIPTION = 'X-Ray Server: Sergey Stepanov\'s X-Ray Server on OASYS'
 README_FILE = os.path.join(os.path.dirname(__file__), 'README.md')
 LONG_DESCRIPTION = open(README_FILE).read()
 AUTHOR = 'Luca Rebuffi'
-AUTHOR_EMAIL = 'luca.rebuffi@elettra.eu'
-URL = 'https://github.com/lucarebuffi/XRayServer'
-DOWNLOAD_URL = 'https://github.com/lucarebuffi/XRayServer'
+AUTHOR_EMAIL = 'lrebuffi@anl.gov'
+URL = 'https://github.com/oasys-kit/XRayServer'
+DOWNLOAD_URL = 'https://github.com/oasys-kit/XRayServer'
 LICENSE = 'GPLv3'
 
 KEYWORDS = (
@@ -40,7 +40,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys1>=1.2.40',
+    'oasys1>=1.2.107',
     'PyQtWebEngine>=5.14'
 )
 

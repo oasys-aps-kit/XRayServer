@@ -1,53 +1,42 @@
+import os
 import sys
 from orangewidget import gui
 import xraylib
 from PyQt5 import QtWidgets
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
-try:
-    import matplotlib
-    import matplotlib.pyplot as plt
-    from matplotlib import cm
-    from matplotlib import figure as matfig
-    import pylab
-except ImportError:
-    print(sys.exc_info()[1])
-    pass
+import matplotlib
 
 import urllib
 
 XRAY_SERVER_URL = "https://x-server.gmca.aps.anl.gov"
+TMP_FILE = "xrayserver_tmp.txt"
 
 class HttpManager():
 
     @classmethod
-    def send_xray_server_request_POST(cls, application, parameters):
-        data = urllib.parse.urlencode(parameters)
-        data = data.encode('utf-8') # data should be bytes
-        req = urllib.request.Request(XRAY_SERVER_URL + application, data)
-        resp = urllib.request.urlopen(req)
-
-        return resp.read().decode('ascii')
-
-    @classmethod
     def send_xray_server_request_GET(cls, application, parameters):
-        resp = urllib.request.urlopen(url=HttpManager.build_xray_server_request_GET(application, parameters))
+        # this code prevent the real X-Ray Server to see Oasys as a bot.
+        opener = urllib.request.build_opener()
+        opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
+        urllib.request.install_opener(opener)
+        urllib.request.urlretrieve(XRAY_SERVER_URL + application + "?" + urllib.parse.urlencode(parameters), TMP_FILE)
 
-        return resp.read().decode('ascii')
+        with open(TMP_FILE) as f:
+            content = f.read()
+            f.close()
+
+        try: os.remove(TMP_FILE)
+        except: pass
+
+        return content
 
     @classmethod
     def send_xray_server_direct_request(cls, url, decode=True):
         resp = urllib.request.urlopen(url=XRAY_SERVER_URL+url)
 
-        if decode:
-            return resp.read().decode('ascii')
-        else:
-            return resp.read()
-
-    @classmethod
-    def build_xray_server_request_GET(cls, application, parameters):
-        return XRAY_SERVER_URL + application + "?" + urllib.parse.urlencode(parameters)
-
+        if decode: return resp.read().decode('ascii')
+        else:      return resp.read()
 
 class XRayServerPhysics:
     @classmethod
