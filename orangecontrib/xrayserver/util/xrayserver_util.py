@@ -12,6 +12,9 @@ import urllib
 XRAY_SERVER_URL = "https://x-server.gmca.aps.anl.gov"
 TMP_FILE = "xrayserver_tmp.txt"
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 class HttpManager():
 
     @classmethod
