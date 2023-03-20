@@ -247,8 +247,8 @@ class X0h(XrayServerWidget):
                 exchange_data.add_content("x-ray_diffraction_profile_pi_units_to_degrees", 0.000277777805)
 
                 self.send("xrayserver_data", exchange_data)
-            except: #problems with xrayserver, no data found
-                pass
+            except Exception as e: #problems with xrayserver, no data found
+                ShowTextDialog.show_text("Error", 'Error Occurred.\nReason: ' + str(e), parent=self)
         except urllib.error.HTTPError as e:
             self.x0h_output.setHtml('The server couldn\'t fulfill the request.\nError Code: '
                                     + str(e.code) + "\n\n" +
@@ -297,11 +297,11 @@ class X0h(XrayServerWidget):
         dictionary = {}
 
         try:
-            dictionary["structure"] = response.split(sep="<tr><td>Structure :   </td><td>")[1].split("</td></tr>")[0].strip()
-            dictionary["energy"]   = float(response.split(sep="<dt>Closest absorption edge (keV) :  </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
+            dictionary["structure"] = response.split(sep="<tr><td>Structure : </td><td>")[1].split("</td></tr>")[0].strip()
+            dictionary["energy"]    = float(response.split(sep="<dt>Closest absorption edge (keV) : </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
 
             try:
-                x0_string = response.split(sep="Critical angle for TER (degr., mrad) :  </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+                x0_string = response.split(sep="Critical angle for TER (degr., mrad) : </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
 
                 dictionary["xr0"] = float(x0_string[0].strip())
                 dictionary["xi0"] = float(x0_string[1].split(sep="<sub>")[0].strip())
