@@ -297,41 +297,46 @@ class X0h(XrayServerWidget):
         dictionary = {}
 
         try:
-            dictionary["structure"] = response.split(sep="<tr><td>Structure : </td><td>")[1].split("</td></tr>")[0].strip()
-            dictionary["energy"]    = float(response.split(sep="<dt>Closest absorption edge (keV) : </dt>")[1].split(sep="<dt>")[3].split(sep="</dt>")[0].strip())
+            dictionary["structure"] = response.split(sep="<tr><td>Structure :   </td><td>")[1].split("</td></tr>")[0].strip()
+            dictionary["energy"]    = float(response.split(sep="<tr><td class=\"novrb\">Energy (keV) : </td><td class=\"novrb\">")[1].split(sep="</td></tr>")[0].strip())
 
             try:
-                x0_string = response.split(sep="Critical angle for TER (degr., mrad) : </dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+                x0_string = response.split(sep="<i>x<sub>r0</sub></i> , <i>x<sub>i0</sub></i> &nbsp; &nbsp; &nbsp; (<i>n = 1 +   x<sub>r0&nbsp;</sub>/2 + i*x<sub>i0&nbsp;</sub>/2</i>) : &nbsp; </td><td class=\"novrb\">")[1].split(sep=", &nbsp; &nbsp;")
 
                 dictionary["xr0"] = float(x0_string[0].strip())
-                dictionary["xi0"] = float(x0_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xi0"] = float(x0_string[1].split(sep="</td></tr>")[0].strip())
             except:
                 dictionary["xr0"] = 0.0
                 dictionary["xi0"] = 0.0
 
             try:
-                bragg_angle_d_spacing_string = response.split("<dt> ESinTheta=12.398/(2d) : </dt>")[1].split(sep="<dt>")
+                bragg_angle_string = response.split("<tr><td class=\"novrb\">Bragg angle (degr.) : </td><td class=\"novrb\">")[1].split(sep="</td></tr>")
 
-                dictionary["bragg_angle"] = float(bragg_angle_d_spacing_string[1].split(sep="</dt>")[0].strip())
-                dictionary["d_spacing"] = float(bragg_angle_d_spacing_string[2].split(sep="</dt>")[0].strip())
+                dictionary["bragg_angle"] = float(bragg_angle_string[0].strip())
             except:
                 dictionary["bragg_angle"] = 0.0
+
+            try:
+                d_spacing_string = response.split("<tr><td class=\"novrb\">Interplanar spacing (A) : </td><td class=\"novrb\">")[1].split(sep="</td></tr>")
+
+                dictionary["d_spacing"] = float(float(d_spacing_string[0].strip()))
+            except:
                 dictionary["d_spacing"] = 0.0
 
             try:
-                xh_s_string = response.split(sep="<dt><b><i>Sigma <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+                xh_s_string = response.split(sep="<tr><td class=\"nobtm\">Polarization : <sub>&nbsp;</sub></td><td class=\"nobtm\"><b><i>Sigma</i></b></td></tr>")[1].split(sep="<tr><td class=\"novrb\">|<i>x<sub>rh</sub></i>| , |<i>x<sub>ih</sub></i>| : &nbsp;</td><td class=\"novrb\">")[1].split(sep=", &nbsp; &nbsp;")
 
                 dictionary["xrh_s"] = float(xh_s_string[0].strip())
-                dictionary["xih_s"] = float(xh_s_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xih_s"] = float(xh_s_string[1].split(sep="</td></tr>")[0].strip())
             except:
                 dictionary["xrh_s"] = 0.0
                 dictionary["xih_s"] = 0.0
 
             try:
-                xh_p_string = response.split(sep="<dt><b><i>Pi <sub>&nbsp;</sub></i></b></dt>")[1].split(sep="<dt>")[1].split(sep=", &nbsp; &nbsp;")
+                xh_p_string = response.split(sep="<tr><td class=\"nobtm\">Polarization : <sub>&nbsp;</sub></td><td class=\"nobtm\"><b><i>Pi</i></b></td></tr>")[1].split(sep="<tr><td class=\"novrb\">|<i>x<sub>rh</sub></i>| , |<i>x<sub>ih</sub></i>| : &nbsp;</td><td class=\"novrb\">")[1].split(sep=", &nbsp; &nbsp;")
 
                 dictionary["xrh_p"] = float(xh_p_string[0].strip())
-                dictionary["xih_p"] = float(xh_p_string[1].split(sep="<sub>")[0].strip())
+                dictionary["xih_p"] = float(xh_p_string[1].split(sep="</td></tr>")[0].strip())
             except:
                 dictionary["xrh_p"] = 0.0
                 dictionary["xih_p"] = 0.0
@@ -356,13 +361,13 @@ class X0h(XrayServerWidget):
 
         for row in rows:
             if form_1_begin:
-                if "<td>" in row:
+                if "</form>" in row:
                     form_1_begin = False
             elif form_2_begin:
-                if "<td>" in row:
+                if "</form>" in row:
                     form_2_begin = False
             elif form_3_begin:
-                if "<td>" in row:
+                if "</form>" in row:
                     form_3_begin = False
 
             if form_1_begin:

@@ -205,7 +205,6 @@ class X0p(XrayServerWidget):
             response = response.split("<hr>")[0] + "\n </body></html>"
 
             temp_1, temp_2 = response.split("style.css")
-            output = temp_1 + XRAY_SERVER_URL + "/style.css" + temp_2
 
             response = response.split("<td><img src=\"images/x.gif\" width=31 height=32 border=0></td>")[0] + "</tr></tr></body></html>"
 
