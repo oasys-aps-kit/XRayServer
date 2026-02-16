@@ -2,7 +2,7 @@ __author__ = "Luca Rebuffi"
 
 from orangecontrib.xrayserver.util.xrayserver_util import HttpManager
 
-APPLICATION = "/cgi/www_dbli.exe"
+APPLICATION = "/cgi/www_dbli.pl"
 
 class ListUtility:
     @classmethod

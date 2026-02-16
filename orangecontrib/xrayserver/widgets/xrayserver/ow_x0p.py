@@ -15,7 +15,7 @@ from oasys.util.oasys_util import ShowTextDialog
 from PyQt5 import QtGui
 from PyQt5.QtWebEngineWidgets import QWebEngineView as QWebView
 
-APPLICATION = "/cgi/x0p_form.exe"
+APPLICATION = "/cgi/x0p_form.pl"
 
 class X0p(XrayServerWidget):
     name = "X0h Search"
